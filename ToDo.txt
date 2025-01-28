@@ -1,0 +1,10 @@
+Module 1 Assignment Requirements:
+1. Create a website
+2. Tabs required: Introduction, Modules/Methods(data prep page, different pages for different models), Conclusion
+3. Choose a topic - fed rate pridection.
+4. 5 para introduction.
+5. Intro Tab - Have a TAB on your website for this. Call it "Introduction". The Introduction is 5+ paragraphs were a paragraph is at least 10 sentences. The Intro should also have images to help the reader to understand your topic area. An Introduction (example of paragraph 1 below) is 100% non-technical and gives the reader a background, basis, understanding, foundation, and motivation for your topic. Do not include anything about models or methods, datasets, etc. This area is only about the topic, what it is, why it matters, who it affects, what has been done so far, what can still be done. etc. 
+
+6. 10 question that you would like to answer about your topic.
+7. Use API to gather data.
+8. Data Prep Tab - see canvas.
