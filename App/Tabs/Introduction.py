@@ -214,7 +214,7 @@ st.markdown("""
 st.divider()
 
 # -----------------------------------------------------------
-# Section 5
+# Section 6
 
 st.markdown('<h2 style="text-align: justify;"> Think of it like adjusting the speed of a car: the Fed uses interest rates to speed up or slow down the economy as needed!</h2>', unsafe_allow_html=True)
 
