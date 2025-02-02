@@ -1,6 +1,6 @@
 import requests
 import pandas as pd
-
+# API Key = Your registered API key is: d45a04206227ded2f814f8046869de4f 
 
 def api_data_retrival(series_id, name):
 
