@@ -78,7 +78,6 @@ def animation_file(filepath: str):
 def Bank_Animation():   
     animation = st_lottie(
         animation_file(r"App/Tabs/Animations/Bank.json"),
-        App/Tabs/Animations/Bank.json
         speed = 1,
         reverse = False,
         loop = True,
