@@ -1,4 +1,4 @@
-import requests
+Api_code = '''import requests
 import pandas as pd
 
 
@@ -61,4 +61,4 @@ api_data_retrival(RealPotentialGDP, "RealPotentialGDP")
 api_data_retrival(RealGDPPerCapita, "RealGDPPerCapita")
 api_data_retrival(InflationConsumerPrice, "InflationConsumerPrice")
 api_data_retrival(ConsumerPriceIndexAllItems, "ConsumerPriceIndexAllItems")
-api_data_retrival(MedianConsumerPriceIndex, "MedianConsumerPriceIndex")
+api_data_retrival(MedianConsumerPriceIndex, "MedianConsumerPriceIndex")'''
