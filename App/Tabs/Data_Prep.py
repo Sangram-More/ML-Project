@@ -187,9 +187,9 @@ st.markdown("<p class='justified-text'>As the dataset we are working with is a t
 
 st.subheader("Step 3: Checking for relevant datatypes.")
 st.markdown("<p class='justified-text'>Using the info function in pandas library, we check for the datatypes of every column.</p>", unsafe_allow_html=True)
-st.image(r"App\Tabs\Images\uncleanedinfo.png", caption="Uncleaned Data Info")
+st.image(r"App/Tabs/Images/uncleanedinfo.png", caption="Uncleaned Data Info")
 st.markdown("<p class='justified-text'>As we can see that the column GDP has a datatype of object. In order to convert this to a float datatype, pandas to_numeric() function is used. Thus after procesing the info section looks like this:</p>", unsafe_allow_html=True)
-st.image(r"App\Tabs\Images\cleanedinfo.png", caption="Cleaned Data Info")
+st.image(r"App/Tabs/Images/cleanedinfo.png", caption="Cleaned Data Info")
 
 st.subheader("Step 3: Use of Pandas describe function to compute statistical measures.")
 st.write(df.describe())
