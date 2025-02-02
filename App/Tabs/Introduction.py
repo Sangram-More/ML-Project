@@ -77,7 +77,8 @@ def animation_file(filepath: str):
 
 def Bank_Animation():   
     animation = st_lottie(
-        animation_file(r"App\Tabs\Animations\Bank.json"),
+        animation_file(r"App/Tabs/Animations/Bank.json"),
+        App/Tabs/Animations/Bank.json
         speed = 1,
         reverse = False,
         loop = True,
@@ -87,7 +88,7 @@ def Bank_Animation():
 
 def Thinking_Animation():   
     animation = st_lottie(
-        animation_file(r"App\Tabs\Animations\Thinking.json"),
+        animation_file(r"App/Tabs/Animations/Thinking.json"),
         speed = 1,
         reverse = False,
         loop = True,
@@ -97,7 +98,7 @@ def Thinking_Animation():
 
 def UpTrend_Animation():   
     animation = st_lottie(
-        animation_file(r"App\Tabs\Animations\UpTrend.json"),
+        animation_file(r"App/Tabs/Animations/UpTrend.json"),
         speed = 1,
         reverse = False,
         loop = True,
@@ -107,7 +108,7 @@ def UpTrend_Animation():
 
 def DownTrend_Animation():   
     animation = st_lottie(
-        animation_file(r"App\Tabs\Animations\DownTrend.json"),
+        animation_file(r"App/Tabs/Animations/DownTrend.json"),
         speed = 1,
         reverse = False,
         loop = True,
@@ -117,7 +118,7 @@ def DownTrend_Animation():
 
 def Speedometer_Animation():   
     animation = st_lottie(
-        animation_file(r"App\Tabs\Animations\Speedometer.json"),
+        animation_file(r"App/Tabs/Animations/Speedometer.json"),
         speed = 1,
         reverse = False,
         loop = True,
