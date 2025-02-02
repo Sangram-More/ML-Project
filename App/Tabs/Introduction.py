@@ -224,3 +224,46 @@ with block2:
     Speedometer_Animation()
 
 st.divider()
+
+# -----------------------------------------------------------
+# Section 7
+
+st.subheader("Lets try to understand the Background of Fed Rates")
+st.markdown("<p class='justified-text'>The US Federal Reserve, commonly known as the Fed, plays a crucial role in shaping the economy by setting interest rates. These rates influence everything from borrowing costs to inflation and economic growth. Historically, changes in the Fed's interest rate policies have had widespread effects on businesses, consumers, and financial markets. Given its impact, predicting these rate changes has been a major area of interest for economists, investors, and policymakers. Traditionally, financial experts relied on economic indicators, historical trends, and expert opinions to anticipate rate decisions. However, with the growing availability of data and advancements in computing, new approaches have emerged. Machine learning, a branch of artificial intelligence, has opened up possibilities to analyze complex economic patterns and predict rate changes more accurately. By leveraging data-driven insights, we can gain a deeper understanding of how various factors contribute to Fed rate decisions.</p>", unsafe_allow_html=True)
+
+# -----------------------------------------------------------
+# Section 8
+
+st.subheader("Now lets try to understand the Basis of Fed Rates")
+st.markdown("<p class='justified-text'>The foundation of interest rate decisions lies in macroeconomic factors such as inflation, employment, GDP growth, and global financial conditions. The Federal Reserve assesses these indicators to determine whether the economy needs higher interest rates to control inflation or lower rates to stimulate growth. Traditional financial models use statistical techniques to analyze past trends and make predictions. However, these models often struggle to adapt to rapidly changing economic conditions. Machine learning, on the other hand, can process vast amounts of real-time data, identify hidden patterns, and improve the accuracy of rate predictions. By combining historical financial data with modern computational techniques, researchers and analysts aim to enhance forecasting methods and develop better economic strategies.</p>", unsafe_allow_html=True)
+
+# -----------------------------------------------------------
+# Section 9
+
+st.subheader("Why Fed Rates are important?")
+st.markdown("<p class='justified-text'>Interest rate predictions are valuable not only for policymakers but also for businesses, investors, and individuals. Changes in Fed rates influence loan interest rates, mortgage payments, credit card costs, and overall investment returns. A well-informed prediction can help businesses plan their financial strategies, assist investors in making informed decisions, and guide policymakers in shaping effective economic policies. Machine learning models analyze past decisions, economic reports, and market behaviors to recognize potential patterns. Unlike traditional models, these AI-driven techniques learn from vast datasets, allowing them to adjust and refine their predictions as new information becomes available. The goal is to bridge the gap between historical economic theories and modern data-driven decision-making.</p>", unsafe_allow_html=True)
+
+# -----------------------------------------------------------
+# Section 10
+
+st.subheader("Why use Machine Learning to predict Fed Rates?")
+st.markdown("<p class='justified-text'>Predicting US Federal Reserve rate changes is a challenge that has significant implications for financial planning and economic stability. A more accurate forecasting approach can help businesses mitigate risks, enable investors to make better decisions, and assist policymakers in responding proactively to economic shifts. The rise of machine learning presents an opportunity to refine traditional forecasting methods by leveraging data-driven insights. By developing a predictive model, we aim to contribute to a deeper understanding of economic trends and decision-making processes. The motivation behind this project is to explore how artificial intelligence can enhance financial forecasting and provide valuable insights into one of the most influential economic decisions worldwide.</p>", unsafe_allow_html=True)
+
+st.divider()
+
+# -----------------------------------------------------------
+# Section 11
+
+st.subheader("What Questions are we trying to answere here?")
+st.markdown(""" 
+1. What are the historical trends in the US Federal Reserve interest rates?
+2. What macroeconomic indicators (inflation, unemployment, GDP, etc.) are most correlated with the Fed rate changes?
+3. Are there seasonal patterns or cycles in Fed rate changes?
+4. Which economic factors have the strongest impact on predicting future Fed rate changes?
+5. How does inflation (CPI) impact Fed rate decisions?
+6. How do unemployment rates and labor market conditions affect Fed rate decisions?
+7. Which machine learning model provides the most accurate prediction for Fed rate changes?
+8. How well can historical data predict future Fed rate changes?
+9. Can we forecast Fed rate changes during economic crises (e.g., 2008 financial crisis, COVID-19)?
+10. How do Fed rate changes impact stock markets, bond yields, and the housing market?
+""")

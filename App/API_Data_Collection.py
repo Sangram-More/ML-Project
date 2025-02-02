@@ -62,7 +62,3 @@ api_data_retrival(RealGDPPerCapita, "RealGDPPerCapita")
 api_data_retrival(InflationConsumerPrice, "InflationConsumerPrice")
 api_data_retrival(ConsumerPriceIndexAllItems, "ConsumerPriceIndexAllItems")
 api_data_retrival(MedianConsumerPriceIndex, "MedianConsumerPriceIndex")
-
-
-
-
