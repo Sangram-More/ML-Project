@@ -205,6 +205,10 @@ st.subheader("Here is a summary of entire dataset using Visualizations:")
 # Set the target variable
 target_variable = "FEDRates"
 
+date_cols = [col for col in df.columns if 'date' in col.lower()]
+if len(date_cols) > 0:
+    df[date_cols[0]] = pd.to_datetime(df[date_cols[0]], errors='coerce')
+
 # Streamlit App Title
 st.title("Exploratory Data Analysis (EDA) - US Fed Rates Prediction")
 
@@ -239,22 +243,27 @@ if selected_plot == "Histogram":
     sns.histplot(df[target_variable], bins=30, kde=True, ax=ax)
     ax.set_title(f"Histogram of {target_variable}")
     st.pyplot(fig)
+    st.markdown("<p class='justified-text'>The histogram of FEDRates shows that the distribution is right-skewed, with a higher concentration of values between 0 and 7.5. There are two prominent peaks, one around 0 and another around 5, indicating frequent occurrences of these interest rate levels. As FEDRates increase beyond 10, the frequency significantly declines, suggesting that higher interest rates are less common. The KDE (Kernel Density Estimation) curve further highlights the main density clusters, reinforcing the bimodal nature of the distribution.</p>", unsafe_allow_html=True)
+    
 
 elif selected_plot == "Boxplot":
     fig, ax = plt.subplots()
     sns.boxplot(y=df[target_variable], ax=ax)
     ax.set_title(f"Boxplot of {target_variable}")
     st.pyplot(fig)
+    st.markdown("<p class='justified-text'>The boxplot of FEDRates shows that the median interest rate is around 4-5%, with the interquartile range (IQR) spanning approximately 2% to 7%, indicating that most of the FEDRates fall within this range. The whiskers extend up to approximately 13%, beyond which several outliers are observed, suggesting that extreme high-interest rates have occurred but are not common. The presence of multiple outliers above 13% indicates that the Fed has occasionally set rates significantly higher than the typical range. The overall distribution suggests that while most interest rates are concentrated in a lower range, there have been notable spikes in Fed rates historically.</p>", unsafe_allow_html=True)
 
 elif selected_plot == "Pairplot":
     fig = sns.pairplot(df.select_dtypes(include=['number']), diag_kind="kde")
     st.pyplot(fig.fig)
+    st.markdown("<p class='justified-text'>The pairplot visualization provides insights into the relationships between multiple numerical variables in the dataset, including FEDRates. The diagonal histograms reveal the distribution of each variable, showing varying degrees of skewness and density. Several scatter plots suggest strong positive or negative correlations, particularly between variables like RealGDP, InflationConsumerPrice, and MedianConsumerIncome, which may influence the Fed rate decisions. The dispersed patterns in some scatter plots indicate weak or no linear relationships, suggesting that non-linear modeling techniques might be beneficial for predicting FEDRates.</p>", unsafe_allow_html=True)
 
 elif selected_plot == "Correlation Heatmap":
     fig, ax = plt.subplots(figsize=(10, 6))
     sns.heatmap(df.corr(), annot=True, cmap='coolwarm', fmt=".2f", ax=ax)
     ax.set_title("Correlation Heatmap")
     st.pyplot(fig)
+    st.markdown("<p class='justified-text'>The correlation heatmap provides an overview of relationships between various economic indicators and the FEDRates. The FEDRates show a strong positive correlation (0.72) with InflationConsumerPrice, indicating that higher inflation tends to be associated with higher interest rates. Conversely, GDP (-0.45) and RealGDP (-0.41) have moderate negative correlations with FEDRates, suggesting that economic growth tends to coincide with lower interest rates. Additionally, variables like RealGDP, RealGDPPercapita, and RealPotentialGDP are highly correlated with each other (~0.99), indicating redundancy in these economic indicators.</p>", unsafe_allow_html=True)
 
 elif selected_plot == "Scatter Plot":
     correlations = df.corr()[target_variable].abs().sort_values(ascending=False)
@@ -263,18 +272,21 @@ elif selected_plot == "Scatter Plot":
     sns.scatterplot(x=df[top_feature], y=df[target_variable], ax=ax)
     ax.set_title(f"Scatter Plot of {target_variable} vs {top_feature}")
     st.pyplot(fig)
+    st.markdown("<p class='justified-text'>The scatter plot of FEDRates vs. InflationConsumerPrice shows a positive correlation, suggesting that higher inflation rates are associated with higher Federal Reserve interest rates. The data points indicate that at lower inflation levels (0-4%), FEDRates are relatively low, whereas at higher inflation levels (above 6%), FEDRates tend to increase significantly. However, there is some scatter and variability, indicating that while inflation is an important factor, other economic indicators likely influence Fed rate decisions. The overall trend aligns with economic theory, where the Federal Reserve raises interest rates to curb inflationary pressures.</p>", unsafe_allow_html=True)
 
 elif selected_plot == "Violin Plot":
     fig, ax = plt.subplots()
     sns.violinplot(y=df[target_variable], ax=ax)
     ax.set_title(f"Violin Plot of {target_variable}")
     st.pyplot(fig)
+    st.markdown("<p class='justified-text'>The violin plot of FEDRates provides a detailed view of the distribution and density of interest rate values. The plot shows that most FEDRates are concentrated between 0% and 6%, with a higher density around 5%, indicating frequent occurrences in this range. The long upper tail suggests that higher interest rates (above 10%) are much less common but have occurred historically. The median, represented by the white line, falls around 4-5%, reinforcing the typical range of Federal Reserve interest rates over time.</p>", unsafe_allow_html=True)
 
 elif selected_plot == "KDE Plot":
     fig, ax = plt.subplots()
     sns.kdeplot(df[target_variable], ax=ax, shade=True)
     ax.set_title(f"KDE Plot of {target_variable}")
     st.pyplot(fig)
+    st.markdown("<p class='justified-text'>The KDE (Kernel Density Estimate) plot of FEDRates shows the probability density function of the interest rate distribution. The plot reveals a right-skewed distribution, with most values concentrated between 0% and 7%, suggesting that lower interest rates have been more common historically. There are two distinct peaks, one around 0-1% and another around 5%, indicating frequent occurrences of these interest rate levels. The density gradually declines for rates above 10%, showing that high FEDRates are rare but have occurred in certain periods.</p>", unsafe_allow_html=True)
 
 elif selected_plot == "Countplot":
     categorical_cols = df.select_dtypes(include=['object']).columns
@@ -295,6 +307,7 @@ elif selected_plot == "Time Series":
         sns.lineplot(x=df_sorted[date_cols[0]], y=df_sorted[target_variable], ax=ax)
         ax.set_title(f"Time Series Trend of {target_variable}")
         st.pyplot(fig)
+        st.markdown("<p class='justified-text'>The time series plot of FEDRates illustrates historical trends in the U.S. Federal Reserve interest rates from the 1950s to the present. The chart shows significant volatility, with peak interest rates occurring in the late 1970s and early 1980s, reaching nearly 20%, likely in response to high inflation. Since the 1990s, FEDRates have generally declined, with extended periods of low rates after the 2008 financial crisis and again around 2020 during the COVID-19 pandemic. More recently, interest rates have been rising again, indicating the Federal Reserve's response to inflation and economic conditions.</p>", unsafe_allow_html=True)
     else:
         st.warning("No date column found.")
 
@@ -305,16 +318,20 @@ elif selected_plot == "Interactive Scatter Plot":
                      title=f"Interactive Scatter Plot of {target_variable} vs {top_feature}",
                      trendline="ols")
     st.plotly_chart(fig)
+    st.markdown("<p class='justified-text'>The interactive scatter plot of FEDRates vs. InflationConsumerPrice displays a positive correlation, indicating that as inflation increases, the Federal Reserve tends to raise interest rates. The fitted trendline reinforces this relationship, showing an upward slope, though there is some dispersion among the data points, suggesting other influencing factors. The data points are more concentrated at lower inflation values (0-6%), with FEDRates mostly ranging between 0% and 7%, while higher inflation values (>10%) correspond to a wider range of FEDRates. This suggests that while inflation is a key driver of interest rate decisions, other economic factors also play a significant role.</p>", unsafe_allow_html=True)
 
 elif selected_plot == "Interactive Histogram":
     fig = px.histogram(df, x=target_variable, title=f"Interactive Histogram of {target_variable}", nbins=30, marginal="box")
     st.plotly_chart(fig)
+    st.markdown("<p class='justified-text'>The interactive histogram of FEDRates shows a right-skewed distribution, with most values concentrated between 0 and 7%, suggesting that lower interest rates have been more common historically. The box plot above the histogram highlights the presence of numerous outliers above 10%, indicating that while high FEDRates have occurred, they are relatively rare. The two peaks around 0% and 5% suggest that these interest rate levels were particularly frequent, possibly corresponding to different economic periods or policy decisions. The spread of data beyond 15% represents extreme rate hikes, likely during economic crises or inflation control measures by the Federal Reserve.</p>", unsafe_allow_html=True)
 
 elif selected_plot == "Interactive Line Chart":
-    if len(date_cols) > 0:
+    if len(date_cols) > 0: 
         df_sorted = df.sort_values(by=date_cols[0])
         fig = px.line(df_sorted, x=date_cols[0], y=target_variable, title=f"Interactive Line Chart of {target_variable}")
         st.plotly_chart(fig)
+        st.markdown("<p class='justified-text'>The interactive line chart of FEDRates illustrates the historical trend of U.S. Federal Reserve interest rates from the 1950s to 2020s, highlighting significant fluctuations over time. The most notable peak occurred in the late 1970s to early 1980s, where interest rates soared close to 20%, likely as a response to extreme inflation during that period. Since the 1990s, rates have generally remained lower, with prolonged near-zero rates following the 2008 financial crisis and again around 2020 during the COVID-19 pandemic. More recently, the chart indicates an upward trend, reflecting monetary tightening policies aimed at controlling inflation in recent years.</p>", unsafe_allow_html=True)
+
     else:
         st.warning("No date column found.")
 
