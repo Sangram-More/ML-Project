@@ -27,6 +27,24 @@ Conclusion_page = st.Page(
     icon = ""
 )
 
+PCA_page = st.Page(
+    page = "Tabs/PCA.py",
+    title = "Principal Component Analysis",
+    icon = ""
+)
+
+Clustering_page = st.Page(
+    page = "Tabs/Clustering.py",
+    title = "Clustering",
+    icon = ""
+)
+
+ARM_page = st.Page(
+    page = "Tabs/ARM.py",
+    title = "Association Rule Mining",
+    icon = ""
+)
+
 # ------ Navigation Menu [Without Sections] ----------
 # pg = st.navigation(pages = [Introduction_page, Methods_page, Conclusion_page])
 
@@ -34,7 +52,7 @@ Conclusion_page = st.Page(
 pg = st.navigation(
     {
         "About": [Introduction_page],
-        "Methodologies": [Data_Prep_page, Methods_page],
+        "Methodologies": [Data_Prep_page, Methods_page, PCA_page, Clustering_page, ARM_page],
         "Conclusion": [Conclusion_page]
     }
 )
