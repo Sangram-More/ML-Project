@@ -162,6 +162,6 @@ st.image(file_path)
 st.divider()
 # -----------------------------------------------------------------------------
 
-st.markdown("Click here to download code for PCA Analysis [link](%s)" % "")
+st.markdown("Click here to download code for PCA Analysis [link](%s)" % "https://github.com/Sangram-More/ML-Project/blob/master/Jupyter%20Lab%20Analysis/PCA.ipynb")
 
 # -----------------------------------------------------------------------------

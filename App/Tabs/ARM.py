@@ -127,6 +127,6 @@ st.divider()
 
 # -----------------------------------------------------------------------------
 
-st.markdown("Click here to download code for Association Rule Mining [link](%s)" % "")
+st.markdown("Click here to download code for Association Rule Mining [link](%s)" % "https://github.com/Sangram-More/ML-Project/blob/master/Jupyter%20Lab%20Analysis/ARM.ipynb")
 
 # -----------------------------------------------------------------------------

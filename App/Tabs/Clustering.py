@@ -179,6 +179,6 @@ st.markdown("<p class='justified-text'>In summary, KMeans offered a balanced clu
 st.divider()
 # -----------------------------------------------------------------------------
 
-st.markdown("Click here to download code for Clustering Analysis [link](%s)" % "")
+st.markdown("Click here to download code for Clustering Analysis [link](%s)" % "https://github.com/Sangram-More/ML-Project/blob/master/Jupyter%20Lab%20Analysis/Clustering.ipynb")
 
 # -----------------------------------------------------------------------------
