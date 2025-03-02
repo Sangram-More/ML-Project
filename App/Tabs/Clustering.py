@@ -177,3 +177,8 @@ st.markdown("<p class='justified-text'>DBSCAN proved to be the most insightful f
 st.markdown("<p class='justified-text'>In summary, KMeans offered a balanced clustering based on compactness, Hierarchical Clustering revealed a hierarchical relationship between economic periods, and DBSCAN excelled at detecting anomalies and irregular clusters. These results collectively indicate that economic data is inherently noisy, often non-spherical, and shaped by both gradual trends and abrupt shocks. This reinforces the understanding that clustering economic data requires choosing methods based on the purpose — KMeans for regular trends, Hierarchical for structural relationships, and DBSCAN for identifying unusual or crisis periods.</p>", unsafe_allow_html=True)
 
 st.divider()
+# -----------------------------------------------------------------------------
+
+st.markdown("Click here to download code for Clustering Analysis [link](%s)" % "")
+
+# -----------------------------------------------------------------------------
