@@ -145,3 +145,43 @@ st.subheader("Let's implement Regression model to our dataset")
 
 st.write("Below is the dataset that is prepared to implement Regression Algorithm")
 st.write(df_reg.head(10))
+
+st.markdown('''<p class='justified-text'>As our target variable is a continuous variable, in order to make it complaient for logestic regression, we changed it and fitted it into bins of size 2, (0,1) base on high/low fed rates. We also used PCA to find out 2 components so as to implement logestic regression. Below are the reuslts for the same: </p>''', unsafe_allow_html=True)
+
+st.write("#### Accuracy Matrices:")
+file_path = r"App/Tabs/Images/Regression_Results.png"
+st.image(file_path)
+
+st.write("#### Confusion Matrix:")
+file_path = r"App/Tabs/Images/Regression_CF.png"
+st.image(file_path)
+
+st.write("#### Model Fit:")
+file_path = r"App/Tabs/Images/regression_boundry.png"
+st.image(file_path)
+
+st.divider()
+
+# -----------------------------------------------------------------------------
+# Section 7
+
+st.subheader("Results:")
+
+st.markdown('''<p class='justified-text'>The logistic regression model performed well in classifying the binary categories (Low vs High) of the `FEDRates` variable after binarizing the dataset. From the classification report, the model achieved an accuracy of 82.35%, with a precision of 0.87 for class 0 and 0.79 for class 1. The recall values indicate that the model is more effective in predicting the "High" class (0.88) compared to the "Low" class (0.76), showing its strength in identifying positive outcomes. The decision boundary plot from PCA-reduced data illustrates a fairly linear separation between the two classes, confirming that logistic regression was appropriate. The confusion matrix shows most predictions were correct, with only 30 misclassifications out of 170. Overall, this model demonstrates good generalization and interpretability, making it a reliable choice for predicting economic indicators like `FEDRates` when reduced to two outcome categories. </p>''', unsafe_allow_html=True)
+
+st.divider()
+
+# -----------------------------------------------------------------------------
+# Section 8
+
+st.subheader("Comparing: Naive Bayes Vs Decision Tree Vs Regression:")
+
+st.markdown('''<p class='justified-text'>To effectively compare the performance of Naive Bayes, Decision Trees, and Logistic Regression, we implemented all three models on the same dataset, focusing on predicting the FEDRates variable. Each model type was chosen for its unique advantages. Naive Bayes models were tested with Multinomial, Bernoulli, and Categorical variants, Decision Trees were built with varying root nodes and configurations, and Logistic Regression was applied after binarizing the target variable. The evaluation criteria included accuracy, confusion matrix analysis, classification reports, and R² scores where applicable.
+
+The Naive Bayes models performed decently, with Categorical Naive Bayes achieving the highest accuracy among its variants at 0.70. It handled nominal features well and offered fast computation and simplicity. However, it struggled to match the precision and adaptability of the other models. Logistic Regression, on the other hand, offered a strong classification boundary (as visualized via PCA), delivering 82.35% accuracy, with good precision and recall, especially for the positive class (class 1). It performed well in binary classification and showed a clean separation between the classes.
+
+Decision Trees stood out in regression performance. By using different features as the root node, we compared multiple tree structures. One of the trees (with UnemployemenrRate as root) achieved the best R² score of 0.91, indicating excellent model fit. The visualized trees showed how features contributed to splits, adding interpretability to the model. The confusion matrices for binned outputs also confirmed strong predictive performance across classes, particularly for Trees 1 and 3.
+
+In summary, all models demonstrated value, but Decision Trees emerged as the most powerful and interpretable choice for this dataset due to their flexibility, visual clarity, and high regression accuracy. Logistic Regression is a close second for classification tasks, especially when binary labels are needed. Naive Bayes, while efficient, was less accurate in this setting. Thus, depending on whether the goal is classification or regression, Decision Trees and Logistic Regression would be the preferred models respectively. </p>''', unsafe_allow_html=True)
+
+st.divider()
