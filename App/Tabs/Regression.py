@@ -146,6 +146,8 @@ st.subheader("Let's implement Regression model to our dataset")
 st.write("Below is the dataset that is prepared to implement Regression Algorithm")
 st.write(df_reg.head(10))
 
+st.markdown("Click here to download cleaned dataset [link](%s)" % "https://github.com/Sangram-More/ML-Project/blob/master/App/Tabs/Datasets/RegressionData.csv")
+
 st.markdown('''<p class='justified-text'>As our target variable is a continuous variable, in order to make it complaient for logestic regression, we changed it and fitted it into bins of size 2, (0,1) base on high/low fed rates. We also used PCA to find out 2 components so as to implement logestic regression. Below are the reuslts for the same: </p>''', unsafe_allow_html=True)
 
 st.write("#### Accuracy Matrices:")
@@ -185,3 +187,5 @@ Decision Trees stood out in regression performance. By using different features 
 In summary, all models demonstrated value, but Decision Trees emerged as the most powerful and interpretable choice for this dataset due to their flexibility, visual clarity, and high regression accuracy. Logistic Regression is a close second for classification tasks, especially when binary labels are needed. Naive Bayes, while efficient, was less accurate in this setting. Thus, depending on whether the goal is classification or regression, Decision Trees and Logistic Regression would be the preferred models respectively. </p>''', unsafe_allow_html=True)
 
 st.divider()
+
+st.markdown("Click here checkout Regression Code [link](%s)" % "https://github.com/Sangram-More/ML-Project/blob/master/Jupyter%20Lab%20Analysis/Resression.ipynb")

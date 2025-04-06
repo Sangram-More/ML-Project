@@ -262,3 +262,5 @@ In terms of prediction, these results suggest that we can use CategoricalNB to b
 Overall, this project helped me understand the practical application of Naive Bayes models, and how performance metrics and confusion matrices can guide model selection and optimization for real-world forecasting tasks.</p>''', unsafe_allow_html=True)
 
 st.divider()
+
+st.markdown("Click here checkout Naive Bayes Code [link](%s)" % "https://github.com/Sangram-More/ML-Project/blob/master/Jupyter%20Lab%20Analysis/NaiveBayes.ipynb")

@@ -241,7 +241,7 @@ st.write(df_DT.head(10))
 st.write("#### Testing set:")
 st.write(df_DT.tail(10))
 
-st.markdown("Click here to download cleaned dataset [link](%s)" % "https://github.com/Sangram-More/ML-Project/blob/master/Jupyter%20Lab%20Analysis/Cleaned/finaldataset.csv")
+st.markdown("Click here to download cleaned dataset [link](%s)" % "https://github.com/Sangram-More/ML-Project/blob/master/Jupyter%20Lab%20Analysis/DTData.csv")
 
 st.markdown('''<p class='justified-text'>In this regression task, our goal is to train a model to predict the FEDRates variable based on other macroeconomic indicators. To evaluate how well the model performs on unseen data, the dataset is divided into two mutually exclusive (disjoint) subsets:</p>''', unsafe_allow_html=True)
 
@@ -352,3 +352,5 @@ st.subheader("Conclusion:")
 st.markdown('''<p class='justified-text'>From this analysis, we learned that certain economic indicators like InflationConsumerPrice and MedianConsumerPriceIndex are strong predictors of FEDRates, as shown by higher R² scores and clearer decision boundaries. The decision trees built on these features consistently outperformed those using UnemployemenrRate as the root. Additionally, tuning parameters like the splitting criterion and tree depth significantly impacted model accuracy and interpretability. The confusion matrices further revealed that trees using strong root features made fewer classification errors. This insight helps prioritize variables that are more influential in forecasting interest rate movements. Ultimately, decision trees offer a transparent and effective way to understand and predict economic trends using interpretable logic-based structures.</p>''', unsafe_allow_html=True)
 
 st.divider()
+
+st.markdown("Click here checkout Decision Tree Code [link](%s)" % "https://github.com/Sangram-More/ML-Project/blob/master/Jupyter%20Lab%20Analysis/DecisionTree.ipynb")
