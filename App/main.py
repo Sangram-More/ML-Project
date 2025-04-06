@@ -45,6 +45,24 @@ ARM_page = st.Page(
     icon = ""
 )
 
+NaiveBayes_page = st.Page(
+    page = "Tabs/NaiveBayes.py",
+    title = "Naive Bayes Algorithm",
+    icon = ""
+)
+
+DecisionTree_page = st.Page(
+    page = "Tabs/DecisionTree.py",
+    title = "Decision Tree",
+    icon = ""
+)
+
+Regression_page = st.Page(
+    page = "Tabs/Regression.py",
+    title = "Regression",
+    icon = ""
+)
+
 # ------ Navigation Menu [Without Sections] ----------
 # pg = st.navigation(pages = [Introduction_page, Methods_page, Conclusion_page])
 
@@ -52,7 +70,7 @@ ARM_page = st.Page(
 pg = st.navigation(
     {
         "About": [Introduction_page],
-        "Methodologies": [Data_Prep_page, Methods_page, PCA_page, Clustering_page, ARM_page],
+        "Methodologies": [Data_Prep_page, Methods_page, PCA_page, Clustering_page, ARM_page, NaiveBayes_page, DecisionTree_page, Regression_page],
         "Conclusion": [Conclusion_page]
     }
 )
