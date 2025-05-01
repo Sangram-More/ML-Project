@@ -63,6 +63,18 @@ Regression_page = st.Page(
     icon = ""
 )
 
+SVM_page = st.Page(
+    page = "Tabs/SVM.py",
+    title = "SVM",
+    icon = ""
+)
+
+Ensembled_page = st.Page(
+    page = "Tabs/Ensembled.py",
+    title = "Ensembled",
+    icon = ""
+)
+
 # ------ Navigation Menu [Without Sections] ----------
 # pg = st.navigation(pages = [Introduction_page, Methods_page, Conclusion_page])
 
@@ -70,7 +82,7 @@ Regression_page = st.Page(
 pg = st.navigation(
     {
         "About": [Introduction_page],
-        "Methodologies": [Data_Prep_page, Methods_page, PCA_page, Clustering_page, ARM_page, NaiveBayes_page, DecisionTree_page, Regression_page],
+        "Methodologies": [Data_Prep_page, Methods_page, PCA_page, Clustering_page, ARM_page, NaiveBayes_page, DecisionTree_page, Regression_page, SVM_page, Ensembled_page],
         "Conclusion": [Conclusion_page]
     }
 )
