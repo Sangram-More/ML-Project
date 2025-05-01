@@ -85,11 +85,23 @@ st.divider()
 # Section 3
 
 st.markdown("### Dataset, we used for implemening random forest model:")
-
+st.markdown("#### Before")
 st.write(df.iloc[89:99].head(10))
+
+st.markdown("#### After")
+st.write(df.iloc[50:90].head(10))
 
 st.divider()
 
+st.markdown("### Training and testing set:")
+
+file_path = r"App/Tabs/Images/rf_train.png"
+st.image(file_path)
+
+file_path = r"App/Tabs/Images/rf_test.png"
+st.image(file_path)
+
+st.divider()
 # -----------------------------------------------------------------------------
 # Section 4
 
@@ -104,6 +116,9 @@ One of the key advantages of Random Forest is its ability to provide feature imp
 The confusion matrix of the best-performing model further illustrated its accuracy. Out of all predictions, only a handful were misclassified. Specifically, the model correctly identified 81 “Low” rate observations and 84 “High” rate observations, with just five total misclassifications. This high precision and recall indicate that the model generalizes well to unseen data and is highly reliable for decision-making scenarios. It confirms that Random Forest doesn’t just memorize patterns, but actually captures underlying relationships in the data.
 
 Overall, Random Forest proved to be a standout model for this project. It not only delivered top-tier performance in terms of accuracy and F1-score, but also offered interpretability, robustness, and adaptability. This makes it an ideal candidate for policymakers, financial analysts, and economists looking to forecast interest rate decisions with confidence. The model’s ability to highlight the most influential economic variables also opens the door for further economic analysis and potentially even real-time predictive applications.</p>''', unsafe_allow_html=True)
+
+file_path = r"App/Tabs/Images/rf_cr.png"
+st.image(file_path)
 
 file_path = r"App/Tabs/Images/rf_cm.png"
 st.image(file_path)

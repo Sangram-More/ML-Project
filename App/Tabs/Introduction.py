@@ -254,16 +254,27 @@ st.divider()
 # -----------------------------------------------------------
 # Section 11
 
+st.markdown('''<p class='justified-text'>As the global economy becomes increasingly interconnected, the ripple effects of Fed rate changes are felt not only within the United States but across international markets as well. A single rate hike or cut can impact foreign exchange rates, international trade, and global investment flows. This makes understanding and anticipating Fed decisions even more essential for stakeholders around the world. The ability to forecast these changes with greater confidence is no longer just a financial exercise—it’s a strategic tool that can influence economic stability and guide informed decision-making on a much broader scale.
+
+This project is built on the belief that the future of economic forecasting lies in combining expert knowledge with intelligent, data-driven tools. By examining a wide range of real economic indicators and applying modern analytical methods, we aim to uncover the deeper signals hidden in the noise of the financial world. The goal is not just to predict what the Fed will do next, but to better understand why those decisions are made. In doing so, we can move toward a more transparent, responsive, and informed approach to navigating the complexities of today’s economy.</p>''', unsafe_allow_html=True)
+
+st.divider()
+
+# -----------------------------------------------------------
+# Section 12
+
 st.subheader("What Questions are we trying to answere here?")
 st.markdown(""" 
-1. What are the historical trends in the US Federal Reserve interest rates?
-2. What macroeconomic indicators (inflation, unemployment, GDP, etc.) are most correlated with the Fed rate changes?
-3. Are there seasonal patterns or cycles in Fed rate changes?
-4. Which economic factors have the strongest impact on predicting future Fed rate changes?
-5. How does inflation (CPI) impact Fed rate decisions?
-6. How do unemployment rates and labor market conditions affect Fed rate decisions?
-7. Which machine learning model provides the most accurate prediction for Fed rate changes?
-8. How well can historical data predict future Fed rate changes?
-9. Can we forecast Fed rate changes during economic crises (e.g., 2008 financial crisis, COVID-19)?
-10. How do Fed rate changes impact stock markets, bond yields, and the housing market?
+1. Can we predict future Federal Reserve interest rate decisions using economic data?
+2. Which economic indicators are most influential in predicting Fed rate changes?
+3. How effective are machine learning models in forecasting Fed rate movements?
+4. What does clustering analysis reveal about economic conditions related to interest rates?
+5. Can association rule mining uncover hidden relationships between economic factors and interest rates?
+6. How does principal component analysis (PCA) help in understanding economic data?
+7. What was the overall accuracy achieved in predicting Fed rate changes?
+8. How does the model's performance vary with different machine learning algorithms?
+9. Can these predictive models assist policymakers and investors?
+10. What are the practical implications of this research for the general public?
 """)
+
+st.divider()
