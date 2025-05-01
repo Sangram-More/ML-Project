@@ -62,7 +62,7 @@ st.markdown('''<p class='justified-text'>But not all problems can be solved with
 file_path = r"App/Tabs/Animations/SVM1.gif"
 st.image(file_path)
 
-file_path = r"App/Tabs/Animations/SVM2.gif"
+file_path = r"App/Tabs/Animations/svm2.gif"
 st.image(file_path)
 
 st.markdown("<p class='justified-text'>There are different types of kernels that allow SVMs to work on different types of data. Two popular ones are the polynomial kernel and the RBF (Radial Basis Function) kernel. The polynomial kernel adds curves and bends to the decision boundary, kind of like drawing more flexible lines that can wrap around clusters of points. The RBF kernel goes even further—it allows the SVM to draw soft, circular boundaries around data, making it very powerful for messy or scattered data. These kernels let SVMs adapt to complex situations, helping them make better decisions even when the separation between categories isn't obvious.</p>", unsafe_allow_html=True)
