@@ -155,6 +155,8 @@ st.markdown("<p class='justified-text'>Supervised learning methods require label
 st.markdown("### Here is our dataset of Fed Rates with different features that we will be using to perform SVM on.")
 st.write(df.iloc[89:99].head(10))
 
+st.markdown("Click here to download cleaned dataset [link](%s)" % "https://github.com/Sangram-More/ML-Project/blob/master/Jupyter%20Lab%20Analysis/Cleaned/finaldataset.csv")
+
 st.divider()
 
 # -----------------------------------------------------------------------------
@@ -209,3 +211,5 @@ st.markdown('''<p class='justified-text'>I learned that economic indicators such
 Using this knowledge, we can make informed predictions about whether the Fed is likely to raise or lower interest rates in the near future. These insights can be valuable for financial analysts, policy makers, investors, and anyone whose decisions are influenced by interest rate changes. For example, if we see rising inflation and falling unemployment in the data, the model might predict an upcoming rate hike. Overall, this research demonstrates the potential of machine learning to enhance economic forecasting and support data-driven decision-making.</p>''', unsafe_allow_html=True) 
 
 st.divider()
+
+st.markdown("Click here to check out the code [link](%s)" % "https://github.com/Sangram-More/ML-Project/blob/master/Jupyter%20Lab%20Analysis/SVM.ipynb")

@@ -91,6 +91,8 @@ st.write(df.iloc[89:99].head(10))
 st.markdown("#### After")
 st.write(df.iloc[50:90].head(10))
 
+st.markdown("Click here to download cleaned dataset [link](%s)" % "https://github.com/Sangram-More/ML-Project/blob/master/Jupyter%20Lab%20Analysis/Cleaned/finaldataset.csv")
+
 st.divider()
 
 st.markdown("### Training and testing set:")
@@ -130,3 +132,5 @@ file_path = r"App/Tabs/Images/rf_features.png"
 st.image(file_path)
 
 st.divider()
+
+st.markdown("Click here to check out the code [link](%s)" % "https://github.com/Sangram-More/ML-Project/blob/master/Jupyter%20Lab%20Analysis/Randomeforest.ipynb")
