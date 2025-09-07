@@ -10,8 +10,8 @@ import seaborn as sns
 import plotly.express as px
 
 # --------------- Data Analystics code --------------------------
-# df_uncleaned = pd.read_csv(r"Tabs/Datasets/Merged_Data.csv")
-df = pd.read_csv(r"Tabs/Datasets/finaldataset.csv")
+# df_uncleaned = pd.read_csv(r"App/Tabs/Datasets/Merged_Data.csv")
+df = pd.read_csv(r"App/Tabs/Datasets/finaldataset.csv")
 
 df['date'] = pd.to_datetime(df['date'])
 
@@ -37,7 +37,7 @@ def animation_file(filepath: str):
 
 def PCA_Animation():   
     animation = st_lottie(
-        animation_file(r"Tabs/Animations/PCA.json"),
+        animation_file(r"App/Tabs/Animations/PCA.json"),
         speed = 1,
         reverse = False,
         loop = True,
@@ -58,7 +58,7 @@ st.markdown('''<p class='justified-text'>Ensemble learning is a powerful approac
 
 One of the most popular ensemble methods is Random Forest, which works by building a collection of decision trees, each trained on different subsets of the data. While a single decision tree might be prone to overfitting or misinterpreting noisy data, Random Forest averages out their results, making the final prediction more robust. This method often leads to higher accuracy and better generalization, especially on complex datasets where patterns may not be obvious. In my own project, Random Forest outperformed most other models and reached an impressive accuracy of around 97%, clearly showcasing the strength of ensemble learning.</p>''', unsafe_allow_html=True)
 
-file_path = r"Tabs/Animations/ensembled1.gif"
+file_path = r"App/Tabs/Animations/ensembled1.gif"
 st.image(file_path)
 
 st.markdown('''<p class='justified-text'>What makes ensemble models so appealing is their flexibility and adaptability. Whether you're working with classification or regression problems, or even imbalanced data, ensembles often deliver strong results without requiring excessive fine-tuning. They’re like the safety net of machine learning—adding an extra layer of reliability, especially when individual models struggle.</p>''', unsafe_allow_html=True)
@@ -74,7 +74,7 @@ st.markdown('''<p class='justified-text'>Random Forest is one of the most powerf
 
 Another thing I appreciated was its ability to rank the importance of each feature. This helped me better understand which economic indicators had the most influence on rate decisions. For example, variables like the Consumer Price Index and Real GDP stood out as strong predictors. Random Forest doesn’t require much parameter tuning, which makes it user-friendly while still being highly effective. Overall, it became clear to me that Random Forest strikes a great balance between accuracy, interpretability, and robustness.</p>''', unsafe_allow_html=True)
 
-file_path = r"Tabs/Animations/randomfroest.gif"
+file_path = r"App/Tabs/Animations/randomfroest.gif"
 st.image(file_path)
 
 st.markdown('''<p class='justified-text'>In real-world terms, this model could be useful for financial institutions, analysts, or even everyday investors who want to anticipate changes in interest rates. By feeding it current economic data, we can generate well-informed predictions and prepare accordingly. Whether the goal is to adjust investment strategies or understand policy decisions, Random Forest proved to be a highly valuable tool in this project.</p>''', unsafe_allow_html=True)
@@ -97,10 +97,10 @@ st.divider()
 
 st.markdown("### Training and testing set:")
 
-file_path = r"Tabs/Images/rf_train.png"
+file_path = r"App/Tabs/Images/rf_train.png"
 st.image(file_path)
 
-file_path = r"Tabs/Images/rf_test.png"
+file_path = r"App/Tabs/Images/rf_test.png"
 st.image(file_path)
 
 st.divider()
@@ -119,16 +119,16 @@ The confusion matrix of the best-performing model further illustrated its accura
 
 Overall, Random Forest proved to be a standout model for this project. It not only delivered top-tier performance in terms of accuracy and F1-score, but also offered interpretability, robustness, and adaptability. This makes it an ideal candidate for policymakers, financial analysts, and economists looking to forecast interest rate decisions with confidence. The model’s ability to highlight the most influential economic variables also opens the door for further economic analysis and potentially even real-time predictive applications.</p>''', unsafe_allow_html=True)
 
-file_path = r"Tabs/Images/rf_cr.png"
+file_path = r"App/Tabs/Images/rf_cr.png"
 st.image(file_path)
 
-file_path = r"Tabs/Images/rf_cm.png"
+file_path = r"App/Tabs/Images/rf_cm.png"
 st.image(file_path)
 
-file_path = r"Tabs/Images/rf_trees.png"
+file_path = r"App/Tabs/Images/rf_trees.png"
 st.image(file_path)
 
-file_path = r"Tabs/Images/rf_features.png"
+file_path = r"App/Tabs/Images/rf_features.png"
 st.image(file_path)
 
 st.divider()

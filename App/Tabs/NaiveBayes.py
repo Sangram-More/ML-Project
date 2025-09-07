@@ -10,12 +10,12 @@ import seaborn as sns
 import plotly.express as px
 
 # --------------- Data Analystics code --------------------------
-# df_uncleaned = pd.read_csv(r"Tabs/Datasets/Merged_Data.csv")
-df = pd.read_csv(r"Tabs/Datasets/finaldataset.csv")
+# df_uncleaned = pd.read_csv(r"App/Tabs/Datasets/Merged_Data.csv")
+df = pd.read_csv(r"App/Tabs/Datasets/finaldataset.csv")
 
 df['date'] = pd.to_datetime(df['date'])
 
-df_NB_data = pd.read_csv(r"Tabs/Datasets/NBTrain.csv")
+df_NB_data = pd.read_csv(r"App/Tabs/Datasets/NBTrain.csv")
 
 #--------------- Custom CSS Styling -----------------------------
 
@@ -39,7 +39,7 @@ def animation_file(filepath: str):
 
 def PCA_Animation():   
     animation = st_lottie(
-        animation_file(r"Tabs/Animations/PCA.json"),
+        animation_file(r"App/Tabs/Animations/PCA.json"),
         speed = 1,
         reverse = False,
         loop = True,
@@ -67,7 +67,7 @@ st.write("""
 4. It picks the outcome with the highest probability as its answer.
 """)
 
-file_path = r"Tabs/Animations/Naive_Bayes_Classifier.gif"
+file_path = r"App/Tabs/Animations/Naive_Bayes_Classifier.gif"
 st.image(file_path)
 
 st.write("###")
@@ -113,7 +113,7 @@ st.write("#### 1. Multinomial Naive Bayes (MultinomialNB):")
 
 st.markdown('''<p class='justified-text'>Multinomial Naive Bayes (MultinomialNB) is optimized for discrete count data, making it ideal for text classification tasks where features represent word frequencies or TF-IDF scores. This variant assumes features follow a multinomial distribution and performs well when working with document categorization or spam detection using bag-of-words representations. MultinomialNB calculates the probability of a document belonging to a class based on the occurrence count of each word, considering the word frequencies. It's particularly effective with large vocabularies and sparse datasets common in natural language processing. The implementation in scikit-learn also includes smoothing parameters to handle zero probabilities, commonly using Laplace or Lidstone smoothing to prevent zero probability issues.</p>''', unsafe_allow_html=True)
 
-file_path = r"Tabs/Animations/multimodal_Naive_Bayes.gif"
+file_path = r"App/Tabs/Animations/multimodal_Naive_Bayes.gif"
 st.image(file_path)
 
 st.write("###")
@@ -122,7 +122,7 @@ st.write("#### 2. Gaussian Naive Bayes (GaussianNB):")
 
 st.markdown('''<p class='justified-text'>Gaussian Naive Bayes (GaussianNB) is designed for continuous data that follows a normal distribution, modeling each feature with a Gaussian probability density function. Unlike other variants, it models features using means and variances, making it suitable for classification problems with continuous measurements like medical diagnostics where features might include blood pressure, temperature, or other quantitative measurements. Its ability to handle continuous variables makes it versatile, though it assumes normally distributed features. GaussianNB stores the mean and variance of each feature for each class during training, then uses these parameters to calculate conditional probabilities when predicting new samples. This variant tends to perform well when working with smaller datasets of continuous variables and doesn't require discretization of features. It's useful for mixed datasets of continuous and categorical features (after appropriate encoding) and often serves as a good baseline classifier.</p>''', unsafe_allow_html=True)
 
-file_path = r"Tabs/Animations/gaussian_nb_animation.gif"
+file_path = r"App/Tabs/Animations/gaussian_nb_animation.gif"
 st.image(file_path)
 
 st.write("###")
@@ -131,7 +131,7 @@ st.write("#### 3. Bernoulli Naive Bayes (BernoulliNB):")
 
 st.markdown('''<p class='justified-text'>Bernoulli Naive Bayes (BernoulliNB) specializes in binary feature representations, focusing only on whether a feature is present (1) or absent (0), not its frequency or intensity. This makes it particularly useful for text classification tasks where you're only concerned with word occurrence rather than count. It uses Bernoulli distributions for modeling and often outperforms Multinomial NB in cases where feature presence/absence is more informative than frequency. BernoulliNB calculates the probability of a document belonging to a class based solely on whether words appear in the document, ignoring their frequency. This variant is particularly effective for short documents or when working with extremely sparse feature matrices. The scikit-learn implementation also includes a binarize parameter to convert non-binary features to binary representations using a threshold, allowing more flexibility in feature preprocessing and representation.</p>''', unsafe_allow_html=True)
 
-file_path = r"Tabs/Animations/bernoulli_nb_animation.gif"
+file_path = r"App/Tabs/Animations/bernoulli_nb_animation.gif"
 st.image(file_path)
 
 st.write("###")
@@ -140,7 +140,7 @@ st.write("#### 4. Categorical Naive Bayes (CategoricalNB):")
 
 st.markdown('''<p class='justified-text'>Categorical Naive Bayes (CategoricalNB) addresses classification tasks with categorical variables that have multiple possible values, not just binary outcomes like Bernoulli NB handles. Unlike Bernoulli NB, it can handle features with several discrete categories, making it appropriate for data where features are nominal categories like colors, sizes, or types. This variant is relatively new to scikit-learn and fills an important gap for handling truly categorical data without forcing binary encoding. CategoricalNB expects features to be encoded as integers representing different categories and models each feature using a categorical distribution rather than Bernoulli or Gaussian distributions. It's particularly useful for datasets with nominal categorical attributes that don't have a natural ordering relationship. The implementation includes alpha parameter for smoothing, similar to other Naive Bayes variants, to handle instances of categories not seen during training.</p>''', unsafe_allow_html=True)
 
-file_path = r"Tabs/Animations/categorical_nb_animation.gif"
+file_path = r"App/Tabs/Animations/categorical_nb_animation.gif"
 st.image(file_path)
 
 st.divider()
@@ -227,23 +227,23 @@ The confusion matrices further reinforce these insights. MultinomialNB misclassi
 In conclusion, for datasets like FEDRates, which appear to contain integer-encoded categorical features, CategoricalNB is best suited, thanks to its modeling assumptions. BernoulliNB can be a fallback but lacks consistency. MultinomialNB is least effective here due to its incompatibility with the data's underlying structure.</p>''', unsafe_allow_html=True)
 
 st.write("#### Naive Bayes: Multimodal")
-file_path = r"Tabs/Images/NB_multimodal_results.png"
+file_path = r"App/Tabs/Images/NB_multimodal_results.png"
 st.image(file_path)
 
 st.write("#### Naive Bayes: Bernoulli")
-file_path = r"Tabs/Images/NB_bernoulli.png"
+file_path = r"App/Tabs/Images/NB_bernoulli.png"
 st.image(file_path)
 
 st.write("#### Naive Bayes: Categorical")
-file_path = r"Tabs/Images/NB_categorical.png"
+file_path = r"App/Tabs/Images/NB_categorical.png"
 st.image(file_path)
 
 st.write("#### Naive Bayes: Matrices Comparision")
-file_path = r"Tabs/Images/NaiveBayesResults.png"
+file_path = r"App/Tabs/Images/NaiveBayesResults.png"
 st.image(file_path)
 
 st.write("#### Naive Bayes: Confusion Matrices")
-file_path = r"Tabs/Images/NaiveBayesCF.png"
+file_path = r"App/Tabs/Images/NaiveBayesCF.png"
 st.image(file_path)
 
 st.divider()

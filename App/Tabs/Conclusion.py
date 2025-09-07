@@ -88,10 +88,10 @@ More than anything, this project reminded us that the economy, while complex, fo
 
 In the end, this research didn’t just build models; it built understanding. It gave us a way to read the signals of the economy and feel just a little less in the dark. And perhaps the biggest takeaway is this: when we listen closely to what the numbers are telling us, they have a lot more to say than we might expect.</p>''', unsafe_allow_html=True)
 
-file_path = r"Tabs/Images/rf_features.png"
+file_path = r"App/Tabs/Images/rf_features.png"
 st.image(file_path)
 
-file_path = r"Tabs/Images/finalresult.png"
+file_path = r"App/Tabs/Images/finalresult.png"
 st.image(file_path)
 
 st.divider()

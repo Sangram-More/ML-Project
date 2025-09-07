@@ -9,7 +9,7 @@ st.divider()
 
 # --------------- Data Analystics code --------------------------
 # df_uncleaned = pd.read_csv(r"Tabs/Datasets/Merged_Data.csv")
-df = pd.read_csv(r"Tabs/Datasets/association_rules.csv")
+df = pd.read_csv(r"App/Tabs/Datasets/association_rules.csv")
 lift = df.sort_values('lift', ascending=False).head(15)
 support = df.sort_values('support', ascending=False).head(15)
 confidence = df.sort_values('confidence', ascending=False).head(15)
@@ -38,7 +38,7 @@ def animation_file(filepath: str):
 
 def PCA_Animation():   
     animation = st_lottie(
-        animation_file(r"Tabs/Animations/PCA.json"),
+        animation_file(r"App/Tabs/Animations/PCA.json"),
         speed = 1,
         reverse = False,
         loop = True,
@@ -70,7 +70,7 @@ st.markdown("#### What are Association Rules?")
 
 st.markdown("<p class='justified-text'>In ARM, association rules are statements that capture relationships between items within a dataset. A rule like {Milk, Bread} → {Butter} means that transactions containing milk and bread are likely to also contain butter. These rules are derived after scanning the transactional data for frequently occurring item combinations (frequent itemsets). Rules can vary in strength and usefulness, so the measures of support, confidence, and lift help filter and rank these rules, ensuring that only meaningful and statistically significant rules are selected.</p>", unsafe_allow_html=True)
 
-file_path = r"Tabs/Images/ARM_vs_Clustering.png"
+file_path = r"App/Tabs/Images/ARM_vs_Clustering.png"
 st.image(file_path)
 
 st.divider()
@@ -79,7 +79,7 @@ st.markdown("#### Apriori Algorithm:")
 
 st.markdown("<p class='justified-text'>The Apriori Algorithm is one of the most widely used algorithms for association rule mining. It works by identifying frequent itemsets — combinations of items that appear together frequently in transactions — and then generating rules from these itemsets. Apriori uses a bottom-up approach, starting with single items and gradually expanding to larger itemsets, provided they meet a minimum support threshold. The algorithm applies the Apriori Property, which states that if an itemset is frequent, then all of its subsets must also be frequent. This property allows Apriori to efficiently prune the search space, focusing only on candidate itemsets that have the potential to be frequent.</p>", unsafe_allow_html=True)
 
-file_path = r"Tabs/Images/Apriori_example.jpg"
+file_path = r"App/Tabs/Images/Apriori_example.jpg"
 st.image(file_path)
 
 st.markdown("#### How Apriori Generates Rules:")
@@ -103,7 +103,7 @@ st.markdown("#### Top 15 Rules for CONFIDENCE:")
 st.write(confidence)
 
 st.markdown("#### Visual representation of ruled mined:")
-file_path = r"Tabs/Images/Apriori_dataset.png"
+file_path = r"App/Tabs/Images/Apriori_dataset.png"
 st.image(file_path)
 
 st.divider()

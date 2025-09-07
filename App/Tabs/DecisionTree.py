@@ -10,12 +10,12 @@ import seaborn as sns
 import plotly.express as px
 
 # --------------- Data Analystics code --------------------------
-# df_uncleaned = pd.read_csv(r"Tabs/Datasets/Merged_Data.csv")
-df = pd.read_csv(r"Tabs/Datasets/finaldataset.csv")
+# df_uncleaned = pd.read_csv(r"App/Tabs/Datasets/Merged_Data.csv")
+df = pd.read_csv(r"App/Tabs/Datasets/finaldataset.csv")
 
 df['date'] = pd.to_datetime(df['date'])
 
-df_DT = pd.read_csv(r"Tabs/Datasets/DTData.csv")
+df_DT = pd.read_csv(r"App/Tabs/Datasets/DTData.csv")
 
 #--------------- Custom CSS Styling -----------------------------
 
@@ -39,7 +39,7 @@ def animation_file(filepath: str):
 
 def PCA_Animation():   
     animation = st_lottie(
-        animation_file(r"Tabs/Animations/PCA.json"),
+        animation_file(r"App/Tabs/Animations/PCA.json"),
         speed = 1,
         reverse = False,
         loop = True,
@@ -69,11 +69,11 @@ st.markdown('''<p class='justified-text'>Decision trees can be used for both cla
 column1_1, column2_1 = st.columns(2, gap="large", vertical_alignment="center")
 
 with column1_1:
-    file_path = r"Tabs/Animations/decisiontree1.gif"
+    file_path = r"App/Tabs/Animations/decisiontree1.gif"
     st.image(file_path)
 
 with column2_1:
-    file_path = r"Tabs/Animations/decisiontree2.gif"
+    file_path = r"App/Tabs/Animations/decisiontree2.gif"
     st.image(file_path)
 
 st.divider()
@@ -262,15 +262,15 @@ st.divider()
 st.subheader("Decision Tree with different depth were implemented so as to find the best depth:")
 
 st.write("Decision Trees:")
-file_path = r"Tabs/Images/DT_multiple.png"
+file_path = r"App/Tabs/Images/DT_multiple.png"
 st.image(file_path)
 
 st.write("Confusion Matrix for Decision Trees with different Depths:")
-file_path = r"Tabs/Images/DT_CF.png"
+file_path = r"App/Tabs/Images/DT_CF.png"
 st.image(file_path)
 
 st.write("Results:")
-file_path = r"Tabs/Images/DT_different_depths.png"
+file_path = r"App/Tabs/Images/DT_different_depths.png"
 st.image(file_path)
 
 st.markdown('''<p class='justified-text'>The decision tree models were evaluated using three configurations with varying depth, criterion, and splitter parameters. Tree 1, configured with squared_error and best splitter at depth 4, achieved an R² score of 0.86 and MSE of 2.11. Tree 2, using absolute_error and the same splitter at depth 5, performed best with 0.91 R² and lowest MSE of 1.39, showing the most accurate prediction capability. Tree 3, which used squared_error but with a random splitter at depth 6, achieved an R² of 0.88 and MSE of 1.71, balancing complexity and performance.
@@ -290,33 +290,33 @@ st.write("#### Root Node: Inflation Consumer Price")
 column1_1, column2_1 = st.columns(2, gap="large", vertical_alignment="center")
 
 with column1_1:
-    file_path = r"Tabs/Images/DT_rootICP.png"
+    file_path = r"App/Tabs/Images/DT_rootICP.png"
     st.image(file_path)
 
 with column2_1:
-    file_path = r"Tabs/Images/DT_CF_ICP.png"
+    file_path = r"App/Tabs/Images/DT_CF_ICP.png"
     st.image(file_path)
 
 st.write("#### Root Node: Unemployeement Rate")
 column1_1, column2_1 = st.columns(2, gap="large", vertical_alignment="center")
 
 with column1_1:
-    file_path = r"Tabs/Images/DT_rootUR.png"
+    file_path = r"App/Tabs/Images/DT_rootUR.png"
     st.image(file_path)
 
 with column2_1:
-    file_path = r"Tabs/Images/DT_CF_UR.png"
+    file_path = r"App/Tabs/Images/DT_CF_UR.png"
     st.image(file_path)
 
 st.write("#### Root Node: Median Consumer Price Index")
 column1_1, column2_1 = st.columns(2, gap="large", vertical_alignment="center")
 
 with column1_1:
-    file_path = r"Tabs/Images/DT_rootMCPI.png"
+    file_path = r"App/Tabs/Images/DT_rootMCPI.png"
     st.image(file_path)
 
 with column2_1:
-    file_path = r"Tabs/Images/DT_CF_MCPI.png"
+    file_path = r"App/Tabs/Images/DT_CF_MCPI.png"
     st.image(file_path)
 
 st.divider()
@@ -327,7 +327,7 @@ st.divider()
 st.subheader("Results:")
 
 st.write("Accuracy Table:")
-file_path = r"Tabs/Images/DT_Accuracy.png"
+file_path = r"App/Tabs/Images/DT_Accuracy.png"
 st.image(file_path)
 
 st.markdown('''<p class='justified-text'>The visualizations and results from our decision tree models provide a thorough comparison of model performance across different configurations and root feature selections. Starting with the R² score table, we observed that Tree 1 (root: InflationConsumerPrice) and Tree 3 (root: MedianConsumerPriceIndex) performed quite similarly with R² scores of 0.791 and 0.784, respectively. Tree 2 (root: UnemployemenrRate), however, had a noticeably lower R² of 0.659, suggesting that this feature is less predictive of the target variable, FEDRates.
