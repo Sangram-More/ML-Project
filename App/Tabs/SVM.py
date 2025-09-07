@@ -11,8 +11,8 @@ import plotly.express as px
 import numpy as np
 
 # --------------- Data Analystics code --------------------------
-# df_uncleaned = pd.read_csv(r"App/Tabs/Datasets/Merged_Data.csv")
-df = pd.read_csv(r"App/Tabs/Datasets/finaldataset.csv")
+# df_uncleaned = pd.read_csv(r"Tabs/Datasets/Merged_Data.csv")
+df = pd.read_csv(r"Tabs/Datasets/finaldataset.csv")
 
 df['date'] = pd.to_datetime(df['date'])
 
@@ -38,7 +38,7 @@ def animation_file(filepath: str):
 
 def PCA_Animation():   
     animation = st_lottie(
-        animation_file(r"App/Tabs/Animations/PCA.json"),
+        animation_file(r"Tabs/Animations/PCA.json"),
         speed = 1,
         reverse = False,
         loop = True,
@@ -59,10 +59,10 @@ st.markdown('''<p class='justified-text'>Support Vector Machines (SVMs) are a ty
 
 st.markdown('''<p class='justified-text'>But not all problems can be solved with a straight line. Sometimes the data is more complicated and tangled. This is where the idea of a "kernel" comes in. A kernel is a clever trick that lets SVMs deal with this by imagining the data in a higher-dimensional space where it can be separated by a straight line. Instead of actually moving the data to this new space (which would be hard to do), the kernel helps the SVM pretend it's already there. This is where the dot product becomes important. The dot product is a way to measure how similar two data points are, and the kernel uses it to calculate relationships between the points in this new, invisible space—without ever having to move the data there.</p>''', unsafe_allow_html=True)
 
-file_path = r"App/Tabs/Animations/SVM1.gif"
+file_path = r"Tabs/Animations/SVM1.gif"
 st.image(file_path)
 
-file_path = r"App/Tabs/Animations/svm2.gif"
+file_path = r"Tabs/Animations/svm2.gif"
 st.image(file_path)
 
 st.markdown("<p class='justified-text'>There are different types of kernels that allow SVMs to work on different types of data. Two popular ones are the polynomial kernel and the RBF (Radial Basis Function) kernel. The polynomial kernel adds curves and bends to the decision boundary, kind of like drawing more flexible lines that can wrap around clusters of points. The RBF kernel goes even further—it allows the SVM to draw soft, circular boundaries around data, making it very powerful for messy or scattered data. These kernels let SVMs adapt to complex situations, helping them make better decisions even when the separation between categories isn't obvious.</p>", unsafe_allow_html=True)
@@ -166,11 +166,11 @@ st.markdown("### Here are some screenshots of how our traing and testing dataset
 column1_1, column2_1 = st.columns(2, gap="large", vertical_alignment="center")
 
 with column1_1:
-    file_path = r"App/Tabs/Images/svmtrain.png"
+    file_path = r"Tabs/Images/svmtrain.png"
     st.image(file_path)
 
 with column2_1:
-    file_path = r"App/Tabs/Images/svmtest.png"
+    file_path = r"Tabs/Images/svmtest.png"
     st.image(file_path)
 
 st.markdown("<p class='justified-text'>To prepare the dataset for Support Vector Machine (SVM) modeling, I first cleaned and normalized all the key economic indicators, such as GDP, inflation, unemployment rate, and various price indices. I then split the cleaned data into two parts: the training set and the testing set. The training set contains 80% of the data and is used to train the SVM model, while the remaining 20% forms the testing set, which is used to evaluate the model’s performance on unseen data. This split is important because it ensures that the model is not just memorizing the data, but actually learning to generalize. Each record in the training and testing sets is labeled with a binary target called FEDRates_Binary, which allows the model to classify rate movements effectively. Since SVM requires labeled and numeric input, this setup ensures everything is ready for accurate and meaningful predictions.</p>", unsafe_allow_html=True) 
@@ -185,13 +185,13 @@ st.divider()
 
 st.markdown("### Results:")
 
-file_path = r"App/Tabs/Images/svm_cm.png"
+file_path = r"Tabs/Images/svm_cm.png"
 st.image(file_path)
 
-file_path = r"App/Tabs/Images/svm_kernal.png"
+file_path = r"Tabs/Images/svm_kernal.png"
 st.image(file_path)
 
-file_path = r"App/Tabs/Images/svm_costs.png"
+file_path = r"Tabs/Images/svm_costs.png"
 st.image(file_path)
 
 st.markdown('''<p class='justified-text'>Your SVM model results show valuable insights across three different kernel types: RBF, Linear, and Polynomial (degree=2). The confusion matrices indicate that the RBF kernel performs best overall, achieving an accuracy of 0.92 with minimal misclassification. It predicts both "Low" and "High" Fed Rate categories with strong precision and balance, reflecting that the RBF kernel effectively captures complex, non-linear relationships in the data. On the other hand, the linear kernel lags behind with an accuracy of 0.81, suggesting that linear separation doesn't fully capture the underlying patterns in the Fed Rates dataset.

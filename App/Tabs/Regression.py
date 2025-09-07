@@ -10,12 +10,12 @@ import seaborn as sns
 import plotly.express as px
 
 # --------------- Data Analystics code --------------------------
-# df_uncleaned = pd.read_csv(r"App/Tabs/Datasets/Merged_Data.csv")
-df = pd.read_csv(r"App/Tabs/Datasets/finaldataset.csv")
+# df_uncleaned = pd.read_csv(r"Tabs/Datasets/Merged_Data.csv")
+df = pd.read_csv(r"Tabs/Datasets/finaldataset.csv")
 
 df['date'] = pd.to_datetime(df['date'])
 
-df_reg = pd.read_csv(r"App/Tabs/Datasets/RegressionData.csv")
+df_reg = pd.read_csv(r"Tabs/Datasets/RegressionData.csv")
 
 
 #--------------- Custom CSS Styling -----------------------------
@@ -40,7 +40,7 @@ def animation_file(filepath: str):
 
 def PCA_Animation():   
     animation = st_lottie(
-        animation_file(r"App/Tabs/Animations/PCA.json"),
+        animation_file(r"Tabs/Animations/PCA.json"),
         speed = 1,
         reverse = False,
         loop = True,
@@ -65,7 +65,7 @@ st.markdown("<p class='justified-text'>Linear regression is a fundamental statis
 
 st.markdown("<p class='justified-text'>Linear regression is widely used due to its simplicity and interpretability. It assumes that there is a linear relationship, the residuals are normally distributed, and there’s no multicollinearity among features in multiple linear regression. It is commonly applied in fields like economics, business, biology, and social sciences to forecast trends and make predictions. Despite being a basic model, linear regression lays the groundwork for understanding more complex algorithms and is a useful baseline for evaluating other models. Its performance can be evaluated using metrics like R² score, Mean Squared Error (MSE), and Mean Absolute Error (MAE).</p>", unsafe_allow_html=True)
 
-file_path = r"App/Tabs/Animations/linerregression.gif"
+file_path = r"Tabs/Animations/linerregression.gif"
 st.image(file_path)
 
 st.divider()
@@ -81,7 +81,7 @@ where β₀ is the intercept and β₁ is the coefficient for the input feature 
 
 st.markdown("<p class='justified-text'>Logistic regression is widely used because it's fast, efficient, and easy to interpret. It works well when the relationship between the input features and the target is approximately linear, and the output is categorical. It’s often used in applications like spam detection, disease diagnosis, customer churn prediction, and credit scoring. The model’s performance is evaluated using metrics such as accuracy, precision, recall, F1-score, and ROC-AUC. Logistic regression can also be extended to multinomial logistic regression for multiclass problems or regularized versions like L1 (Lasso) and L2 (Ridge) to prevent overfitting. Despite its simplicity, it remains a strong and interpretable baseline for classification tasks.</p>", unsafe_allow_html=True)
 
-file_path = r"App/Tabs/Animations/logisticregression.gif"
+file_path = r"Tabs/Animations/logisticregression.gif"
 st.image(file_path)
 
 st.divider()
@@ -146,20 +146,20 @@ st.subheader("Let's implement Regression model to our dataset")
 st.write("Below is the dataset that is prepared to implement Regression Algorithm")
 st.write(df_reg.head(10))
 
-st.markdown("Click here to download cleaned dataset [link](%s)" % "https://github.com/Sangram-More/ML-Project/blob/master/App/Tabs/Datasets/RegressionData.csv")
+st.markdown("Click here to download cleaned dataset [link](%s)" % "https://github.com/Sangram-More/ML-Project/blob/master/Tabs/Datasets/RegressionData.csv")
 
 st.markdown('''<p class='justified-text'>As our target variable is a continuous variable, in order to make it complaient for logestic regression, we changed it and fitted it into bins of size 2, (0,1) base on high/low fed rates. We also used PCA to find out 2 components so as to implement logestic regression. Below are the reuslts for the same: </p>''', unsafe_allow_html=True)
 
 st.write("#### Accuracy Matrices:")
-file_path = r"App/Tabs/Images/Regression_Results.png"
+file_path = r"Tabs/Images/Regression_Results.png"
 st.image(file_path)
 
 st.write("#### Confusion Matrix:")
-file_path = r"App/Tabs/Images/Regression_CF.png"
+file_path = r"Tabs/Images/Regression_CF.png"
 st.image(file_path)
 
 st.write("#### Model Fit:")
-file_path = r"App/Tabs/Images/regression_boundry.png"
+file_path = r"Tabs/Images/regression_boundry.png"
 st.image(file_path)
 
 st.divider()

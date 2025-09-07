@@ -8,8 +8,8 @@ st.title("What do you know about different types of Clustering: Kmeans, Hierarch
 st.divider()
 
 # --------------- Data Analystics code --------------------------
-# df_uncleaned = pd.read_csv(r"App/Tabs/Datasets/Merged_Data.csv")
-df = pd.read_csv(r"App/Tabs/Datasets/finaldataset.csv")
+# df_uncleaned = pd.read_csv(r"Tabs/Datasets/Merged_Data.csv")
+df = pd.read_csv(r"Tabs/Datasets/finaldataset.csv")
 
 df['date'] = pd.to_datetime(df['date'])
 
@@ -35,7 +35,7 @@ def animation_file(filepath: str):
 
 def PCA_Animation():   
     animation = st_lottie(
-        animation_file(r"App/Tabs/Animations/PCA.json"),
+        animation_file(r"Tabs/Animations/PCA.json"),
         speed = 1,
         reverse = False,
         loop = True,
@@ -52,7 +52,7 @@ def PCA_Animation():
 st.markdown("### K-means:")
 st.markdown("<p class='justified-text'>K-Means clustering is a way to group data points into different clusters based on how similar they are to each other. First, the algorithm randomly chooses a few center points (called centroids) that represent each cluster. Then, every data point is assigned to the nearest centroid, forming clusters. After that, the centroids are moved to the average position of all the points in their cluster, and the process repeats until the centroids stop moving much. The goal is to make the points within each cluster as close to each other as possible, while keeping clusters far apart. One important thing about K-Means is that you have to decide how many clusters (k) you want beforehand, which can be tricky if you don’t know the data well. K-Means works best when the clusters are round and evenly sized, but it might not work well for complex shapes or data with lots of outliers.</p>", unsafe_allow_html=True)
 
-file_path = r"App/Tabs/Animations/k_means_example.gif"
+file_path = r"Tabs/Animations/k_means_example.gif"
 st.image(file_path)
 st.divider()
 
@@ -62,7 +62,7 @@ st.divider()
 st.markdown("### Hierarchical Clustering:")
 st.markdown("<p class='justified-text'>Hierarchical clustering is a way to group data points into clusters by building a tree-like structure called a dendrogram. It works either bottom-up (starting with each data point as its own cluster and gradually merging the closest ones) or top-down (starting with all data points in one big cluster and gradually splitting them). One of the best things about hierarchical clustering is that you don’t need to know the number of clusters beforehand—you can decide after looking at the dendrogram. This method is very easy to understand visually, because the dendrogram shows how and when each point or cluster was grouped. However, it works best on small datasets, because the process of comparing all data points to each other can be very slow when the dataset is large. It also struggles with noisy data and is sensitive to outliers, which can distort the tree structure. Overall, hierarchical clustering is a great choice for exploring the natural structure of a small dataset, especially when you want to understand relationships between clusters.</p>", unsafe_allow_html=True)
 
-file_path = r"App/Tabs/Animations/Hierarchical_Clustering_example.gif"
+file_path = r"Tabs/Animations/Hierarchical_Clustering_example.gif"
 st.image(file_path)
 st.divider()
 
@@ -72,7 +72,7 @@ st.divider()
 st.markdown("### DBSCAN:")
 st.markdown("<p class='justified-text'>DBSCAN, which stands for Density-Based Spatial Clustering of Applications with Noise, is a popular clustering algorithm that works by grouping together points that are close to each other. Instead of asking you to predefine the number of clusters (like KMeans), DBSCAN looks for dense areas in the data and treats points that are too far away as noise or outliers. It works well when clusters have irregular shapes or when the data has a lot of noise. The two main settings you need to choose are eps, which is the maximum distance to consider points as neighbors, and min_samples, which is the minimum number of points needed to form a dense cluster. One big advantage of DBSCAN is that it can find clusters of all shapes and sizes, unlike some other methods that only work for round or evenly sized clusters. However, choosing good values for eps and min_samples is very important, and if these are not set well, the clustering results can be poor. Overall, DBSCAN is a great choice when you want to detect flexible-shaped clusters and handle noisy data automatically.</p>", unsafe_allow_html=True)
 
-file_path = r"App/Tabs/Animations/DBSCAN_example.gif"
+file_path = r"Tabs/Animations/DBSCAN_example.gif"
 st.image(file_path)
 st.divider()
 
@@ -82,7 +82,7 @@ st.divider()
 st.markdown("### Applying K-Means algorithm on Fed Rates Dataset:")
 
 st.markdown("##### Silhouette process to obtain optimal K values:")
-file_path = r"App/Tabs/Images/Silhouette_Optimal_k.png"
+file_path = r"Tabs/Images/Silhouette_Optimal_k.png"
 st.image(file_path)
 
 st.markdown("#")
@@ -94,24 +94,24 @@ st.markdown("##### K-Means implementation using optimal values:")
 # column1_1, column2_1, column3_1 = st.columns(3, gap="small", vertical_alignment="center")
 
 # with column1_1:
-#     file_path = r"App/Tabs/Images/K_means_k3.png"
+#     file_path = r"Tabs/Images/K_means_k3.png"
 #     st.image(file_path)
 
 # with column2_1:
-#     file_path = r"App/Tabs/Images/K_means_k5.png"
+#     file_path = r"Tabs/Images/K_means_k5.png"
 #     st.image(file_path)
 
 # with column3_1:
-#     file_path = r"App/Tabs/Images/K_means_k6.png"
+#     file_path = r"Tabs/Images/K_means_k6.png"
 #     st.image(file_path)
 
-file_path = r"App/Tabs/Images/K_means_k3.png"
+file_path = r"Tabs/Images/K_means_k3.png"
 st.image(file_path)
 
-file_path = r"App/Tabs/Images/K_means_k5.png"
+file_path = r"Tabs/Images/K_means_k5.png"
 st.image(file_path)
 
-file_path = r"App/Tabs/Images/K_means_k6.png"
+file_path = r"Tabs/Images/K_means_k6.png"
 st.image(file_path)
 
 st.markdown("#")
@@ -126,14 +126,14 @@ st.divider()
 st.markdown("### Applying Hierarchical Clustering algorithm on Fed Rates Dataset:")
 
 st.markdown("##### Dendrogram of Hierarchical Clustering:")
-file_path = r"App/Tabs/Images/Hierarchical_Clustering_dendrogram.png"
+file_path = r"Tabs/Images/Hierarchical_Clustering_dendrogram.png"
 st.image(file_path)
 
 st.markdown("<p class='justified-text'>The dendrogram shown is a hierarchical clustering visualization that helps us understand how data points in the given dataset are merged into clusters. Using Ward’s method, it minimizes the variance within each cluster as new points are added. The red horizontal line represents the threshold at which the data is split into exactly three clusters, indicating that the optimal number of clusters (k=3) is selected. Observing the branching, we can see that some clusters merge at very short distances, indicating they are highly similar, while others join at much larger distances, meaning they are more distinct. This suggests that the dataset has a natural structure where some groups of data points are closely related, while others are more distant. Overall, the dendrogram confirms that the data exhibits a hierarchical structure, and selecting k=3 seems reasonable for further analysis using hierarchical clustering.</p>", unsafe_allow_html=True)
 
 
 st.markdown("##### Hierarchical Clustering (k=3):")
-file_path = r"App/Tabs/Images/Hierarchical_Clustering_k3.png"
+file_path = r"Tabs/Images/Hierarchical_Clustering_k3.png"
 st.image(file_path)
 
 st.markdown("<p class='justified-text'>The above graph is a visualization of Hierarchical Clustering applied to the dataset after reducing it to two principal components using PCA. The data points are divided into three clusters, as indicated by the color variations. We can observe that the leftmost cluster contains data points that are closely packed, indicating a dense region with strong similarity between points. The middle cluster is more spread out, suggesting that this group contains more variation in data characteristics. The rightmost cluster is even more scattered, which could indicate a broader range of patterns within that group. Hierarchical clustering works well in this case as it identifies these natural groupings based on distance and similarity, but the presence of overlapping points (especially in the central area) hints that some points could potentially belong to either of two neighboring clusters. Overall, this visualization gives a clear view of how the data naturally segments into three distinct groups based on hierarchical relationships.</p>", unsafe_allow_html=True)
@@ -146,11 +146,11 @@ st.markdown("#")
 st.markdown("### Applying DBSCAN algorithm on Fed Rates Dataset:")
 
 st.markdown("##### K-Distance Graph:")
-file_path = r"App/Tabs/Images/K_distance_graph.png"
+file_path = r"Tabs/Images/K_distance_graph.png"
 st.image(file_path)
 
 st.markdown("##### DBSCAN Clustering:")
-file_path = r"App/Tabs/Images/DBSCAN_Clustering.png"
+file_path = r"Tabs/Images/DBSCAN_Clustering.png"
 st.image(file_path)
 
 st.markdown("<p class='justified-text'>The DBSCAN clustering method has successfully identified 9 distinct clusters within the dataset, while also marking 90 points as noise, indicating that these points do not belong to any cluster. This demonstrates that DBSCAN is particularly effective at detecting outliers, which is an advantage over KMeans and Hierarchical clustering methods. In the k-distance graph, the elbow point helps determine an optimal eps value, which is a crucial parameter for DBSCAN. The graph shows a distinct upward bend around 0.8, suggesting this is a suitable eps value, which was used in the clustering process. The resulting clusters vary in density, showing DBSCAN's ability to handle irregularly shaped clusters, which is another benefit compared to KMeans, which tends to find spherical clusters. The noise points detected by DBSCAN might represent economic conditions or events that were significantly different from the general patterns, possibly indicating outliers such as financial crises or major economic policy changes.</p>", unsafe_allow_html=True)

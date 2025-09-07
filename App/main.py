@@ -9,11 +9,11 @@ Introduction_page = st.Page(
     default = True
 )
 
-Methods_page = st.Page(
-    page = "Tabs/Methods.py",
-    title = "Machine Learning Methods",
-    icon = ""
-)
+# Methods_page = st.Page(
+#     page = "Tabs/Methods.py",
+#     title = "Machine Learning Methods",
+#     icon = ""
+# )
 
 Data_Prep_page = st.Page(
     page = "Tabs/Data_Prep.py",
@@ -82,7 +82,7 @@ Ensembled_page = st.Page(
 pg = st.navigation(
     {
         "About": [Introduction_page],
-        "Methodologies": [Data_Prep_page, Methods_page, PCA_page, Clustering_page, ARM_page, NaiveBayes_page, DecisionTree_page, Regression_page, SVM_page, Ensembled_page],
+        "Methodologies": [Data_Prep_page, PCA_page, Clustering_page, ARM_page, NaiveBayes_page, DecisionTree_page, Regression_page, SVM_page, Ensembled_page],
         "Conclusion": [Conclusion_page]
     }
 )
