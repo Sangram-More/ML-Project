@@ -1,13 +1,7 @@
 import streamlit as st
 from streamlit_lottie import st_lottie
 import json
-import os
-from statistics import correlation
-import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-import plotly.express as px
 
 # --------------- Data Analystics code --------------------------
 # df_uncleaned = pd.read_csv(r"App/Tabs/Datasets/Merged_Data.csv")

@@ -1,9 +1,7 @@
-from statistics import correlation
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import plotly.express as px
 import numpy as np
 from statsmodels.tsa.seasonal import seasonal_decompose
 
@@ -32,8 +30,8 @@ st.markdown(
 # -----------------------------------------------------------------------------
 # st.markdown("<p class='justified-text'></p>", unsafe_allow_html=True)
 
-st.title("Data Preperation.")
-st.header("Lets see how to gather data.")
+st.title("Data Preparation")
+st.header("Data Collection, Cleaning & Exploratory Analysis")
 
 # ---------------------------------------------------------------
 # Section 1
@@ -67,8 +65,8 @@ st.markdown("<p class='justified-text'>Using pandas library, the dataset is load
 st.subheader("Step 2: Removing all entries where there is no value in Fed Rates column.")
 st.markdown("<p class='justified-text'>Dataset for fed rates is between the timeframe of 1954 to 2024. Some variables do have values which are pre 1954 years and post 2024 years. Thus as now missing value was found betwwen the timeframe of 1954 to 2024, we remove all the extra entries that are pre 1954 and post 2024 as they do not contain any information regarding Fed Rates.</p>", unsafe_allow_html=True)
 
-st.subheader("Step 3: Replacing Nan(Missing values).")
-st.markdown("<p class='justified-text'>As the dataset we are working with is a time series dataset, thus we can't simplify replace nan values with mean, median or mode of the respective column. For example, values for GDP are released quaterly, thus for a given year we just have 4 vlaues for GDP and 12 values for Fed Rates. We use pandas fillna() function with parameter methid='ffill' for fill in the missing values. Now in this case, thr missing values for GPD will get filled with the value just before it (forward fill). This will help to maintain infromation in the dataset.</p>", unsafe_allow_html=True)
+st.subheader("Step 3: Replacing NaN (Missing Values)")
+st.markdown("<p class='justified-text'>As the dataset we are working with is a time series dataset, we cannot simply replace NaN values with mean, median, or mode of the respective column. For example, values for GDP are released quarterly, thus for a given year we just have 4 values for GDP and 12 values for Fed Rates. We use pandas fillna() function with parameter method='ffill' to fill in the missing values. In this case, the missing values for GDP will get filled with the value just before it (forward fill). This helps maintain the temporal consistency of the dataset.</p>", unsafe_allow_html=True)
 
 st.subheader("Step 3: Checking for relevant datatypes.")
 st.markdown("<p class='justified-text'>Using the info function in pandas library, we check for the datatypes of every column.</p>", unsafe_allow_html=True)
