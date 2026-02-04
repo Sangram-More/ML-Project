@@ -314,9 +314,9 @@ jupyter lab
 
 **Sangram More**
 
-- GitHub: [@Sangram-More](https://github.com/Sangram-More)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/your-profile)
-- Email: your.email@example.com
+- GitHub: [@Sangram-More](https://github.com/Sangram-More/ML-Project)
+- LinkedIn: [https://www.linkedin.com/in/sangrammore](https://www.linkedin.com/in/sangrammore)
+- Email: sangrammoreus@gmail.com
 
 ---
 
