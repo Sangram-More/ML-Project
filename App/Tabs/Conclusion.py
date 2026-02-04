@@ -32,11 +32,12 @@ st.markdown(
         border-left: 4px solid #28a745;
     }
     .answer-box {
-        background: #fff;
+        background: #f8f9fa;
         padding: 1rem;
         border-radius: 8px;
         border: 1px solid #dee2e6;
         margin: 0.5rem 0;
+        color: #333;
     }
     </style>
     """,
