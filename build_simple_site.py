@@ -7,7 +7,7 @@ import os, shutil, json
 BASE   = "d:/Projects/ML website/ML-Project"
 CHARTS = f"{BASE}/ml_analysis/outputs/charts"
 RES    = f"{BASE}/ml_analysis/outputs/results"
-SITE   = f"{BASE}/website"
+SITE   = f"{BASE}/docs"
 IMGS   = f"{SITE}/images"
 
 os.makedirs(IMGS, exist_ok=True)

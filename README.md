@@ -254,8 +254,8 @@ ML-Project/
 │   ├── 08_Association_Rules.ipynb
 │   └── 09_Model_Comparison.ipynb
 │
-├── website/
-│   ├── index.html                   # Static website (open directly in browser)
+├── docs/
+│   ├── index.html                   # Static website (open directly in browser, or via GitHub Pages)
 │   └── images/                      # All chart images referenced by the website
 │
 ├── build_simple_site.py             # Script to regenerate the static website
@@ -307,13 +307,15 @@ pip install -r requirements.txt
 Simply open the file in any browser:
 
 ```
-website/index.html
+docs/index.html
 ```
 
 Or on Windows:
 ```bash
-start website/index.html
+start docs/index.html
 ```
+
+**Live on GitHub Pages:** `https://YOUR_USERNAME.github.io/ML-Project/`
 
 This is the fastest way to view all results, charts, and analysis.
 
