@@ -1,0 +1,7 @@
+{
+  "n_frequent_itemsets": 7,
+  "n_rules": 4,
+  "top_lift": 1.9568345323741008,
+  "top_confidence": 0.9784172661870504,
+  "top_support": 0.4892086330935252
+}

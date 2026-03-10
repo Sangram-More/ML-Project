@@ -1,0 +1,140 @@
+{
+  "normality": {
+    "FEDRates": {
+      "statistic": 0.9347,
+      "p_value": 0.0,
+      "is_normal": false
+    },
+    "ConsumerPriceIndexAllItems": {
+      "statistic": 0.98,
+      "p_value": 2e-06,
+      "is_normal": false
+    },
+    "GDP": {
+      "statistic": 0.864,
+      "p_value": 0.0,
+      "is_normal": false
+    },
+    "InflationConsumerPrice": {
+      "statistic": 0.8425,
+      "p_value": 0.0,
+      "is_normal": false
+    },
+    "MedianConsumerPriceIndex": {
+      "statistic": 0.8639,
+      "p_value": 0.0,
+      "is_normal": false
+    },
+    "RealGDP": {
+      "statistic": 0.9239,
+      "p_value": 0.0,
+      "is_normal": false
+    },
+    "RealGDPPerCapita": {
+      "statistic": 0.9432,
+      "p_value": 0.0,
+      "is_normal": false
+    },
+    "RealPotentialGDP": {
+      "statistic": 0.923,
+      "p_value": 0.0,
+      "is_normal": false
+    },
+    "UnemployemenrRate": {
+      "statistic": 0.9445,
+      "p_value": 0.0,
+      "is_normal": false
+    }
+  },
+  "stationarity": {
+    "FEDRates": {
+      "adf_stat": -2.1276,
+      "p_value": 0.233558,
+      "is_stationary": false
+    },
+    "ConsumerPriceIndexAllItems": {
+      "adf_stat": -3.3857,
+      "p_value": 0.011457,
+      "is_stationary": true
+    },
+    "GDP": {
+      "adf_stat": 3.8007,
+      "p_value": 1.0,
+      "is_stationary": false
+    },
+    "InflationConsumerPrice": {
+      "adf_stat": -2.6986,
+      "p_value": 0.074279,
+      "is_stationary": false
+    },
+    "MedianConsumerPriceIndex": {
+      "adf_stat": -2.4245,
+      "p_value": 0.134947,
+      "is_stationary": false
+    },
+    "RealGDP": {
+      "adf_stat": 2.702,
+      "p_value": 0.999087,
+      "is_stationary": false
+    },
+    "RealGDPPerCapita": {
+      "adf_stat": 1.022,
+      "p_value": 0.994492,
+      "is_stationary": false
+    },
+    "RealPotentialGDP": {
+      "adf_stat": 0.6176,
+      "p_value": 0.988042,
+      "is_stationary": false
+    },
+    "UnemployemenrRate": {
+      "adf_stat": -3.2565,
+      "p_value": 0.016938,
+      "is_stationary": true
+    }
+  },
+  "ttest_inflation": {
+    "t_stat": 20.171196333964534,
+    "p_value": 5.6757728573707e-74,
+    "high_mean": 6.672786764705882,
+    "low_mean": 2.6817370892018775
+  },
+  "anova_regimes": {
+    "f_stat": 1440.2765279057105,
+    "p_value": 0.0
+  },
+  "spearman": {
+    "ConsumerPriceIndexAllItems": {
+      "rho": 0.3127,
+      "p_value": 0.0
+    },
+    "GDP": {
+      "rho": -0.3903,
+      "p_value": 0.0
+    },
+    "InflationConsumerPrice": {
+      "rho": 0.6763,
+      "p_value": 0.0
+    },
+    "MedianConsumerPriceIndex": {
+      "rho": 0.4497,
+      "p_value": 0.0
+    },
+    "RealGDP": {
+      "rho": -0.3861,
+      "p_value": 0.0
+    },
+    "RealGDPPerCapita": {
+      "rho": -0.3763,
+      "p_value": 0.0
+    },
+    "RealPotentialGDP": {
+      "rho": -0.3921,
+      "p_value": 0.0
+    },
+    "UnemployemenrRate": {
+      "rho": -0.0058,
+      "p_value": 0.867811
+    }
+  }
+}

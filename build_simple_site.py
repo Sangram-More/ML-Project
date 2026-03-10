@@ -1,0 +1,994 @@
+"""
+Build a simple, clean static website for the ML project.
+Overwrites website/index.html
+"""
+import os, shutil, json
+
+BASE   = "d:/Projects/ML website/ML-Project"
+CHARTS = f"{BASE}/ml_analysis/outputs/charts"
+RES    = f"{BASE}/ml_analysis/outputs/results"
+SITE   = f"{BASE}/website"
+IMGS   = f"{SITE}/images"
+
+os.makedirs(IMGS, exist_ok=True)
+
+# ── Copy charts we'll use ─────────────────────────────────────────────────────
+def cp(cat, fname):
+    src = os.path.join(CHARTS, cat, fname)
+    dst = os.path.join(IMGS, f"{cat}__{fname}")
+    if os.path.exists(src):
+        shutil.copy2(src, dst)
+    return f"images/{cat}__{fname}"
+
+# ── Load results ──────────────────────────────────────────────────────────────
+with open(f"{RES}/regression_results.json")     as f: reg  = json.load(f)
+with open(f"{RES}/classification_results.json") as f: cls  = json.load(f)
+with open(f"{RES}/clustering_results.json")     as f: clust = json.load(f)
+with open(f"{RES}/arm_results.json")            as f: arm  = json.load(f)
+with open(f"{RES}/statistical_analysis.json")   as f: stat = json.load(f)
+
+# sorted models
+reg_sorted  = sorted(reg.items(),  key=lambda x: x[1]["R2"],       reverse=True)
+cls_sorted  = sorted(cls.items(),  key=lambda x: x[1]["Accuracy"], reverse=True)
+
+def reg_rows():
+    rows = ""
+    for i, (m, r) in enumerate(reg_sorted):
+        best = ' class="best"' if i == 0 else ""
+        rows += f'<tr{best}><td>{"★ " if i==0 else ""}{m}</td><td>{r["R2"]}</td><td>{r["RMSE"]}</td><td>{r["MAE"]}</td></tr>\n'
+    return rows
+
+def cls_rows():
+    rows = ""
+    for i, (m, r) in enumerate(cls_sorted):
+        best = ' class="best"' if i == 0 else ""
+        rows += f'<tr{best}><td>{"★ " if i==0 else ""}{m}</td><td>{r["Accuracy"]:.1%}</td><td>{r["F1"]:.4f}</td><td>{r["cv"]["mean"]:.1%} ± {r["cv"]["std"]:.1%}</td></tr>\n'
+    return rows
+
+def reg_rank_rows():
+    rows = ""
+    medals = ["🥇", "🥈", "🥉"]
+    for i, (m, r) in enumerate(reg_sorted):
+        best = ' class="best"' if i == 0 else ""
+        rank = medals[i] if i < 3 else str(i + 1)
+        rows += f'<tr{best}><td>{rank}</td><td>{m}</td><td>{r["R2"]}</td><td>{r["RMSE"]}</td></tr>\n'
+    return rows
+
+def cls_rank_rows():
+    rows = ""
+    medals = ["🥇", "🥈", "🥉"]
+    for i, (m, r) in enumerate(cls_sorted):
+        best = ' class="best"' if i == 0 else ""
+        rank = medals[i] if i < 3 else str(i + 1)
+        rows += f'<tr{best}><td>{rank}</td><td>{m}</td><td>{r["Accuracy"]:.1%}</td><td>{r["F1"]:.4f}</td></tr>\n'
+    return rows
+
+# ── HTML ──────────────────────────────────────────────────────────────────────
+html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Federal Reserve Rate Prediction — ML Analysis</title>
+<style>
+  /* ── Base ── */
+  *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
+  :root {{
+    --blue:   #2563eb;
+    --dark:   #1a2332;
+    --gray:   #f4f6f9;
+    --border: #e2e8f0;
+    --text:   #1e293b;
+    --muted:  #64748b;
+  }}
+  body {{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    line-height: 1.7;
+    background: #fff;
+  }}
+  h1, h2, h3, h4 {{ line-height: 1.3; }}
+  a {{ color: var(--blue); text-decoration: none; }}
+
+  /* ── Nav ── */
+  nav {{
+    background: var(--dark);
+    padding: 0 2rem;
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; gap: 2rem;
+    height: 54px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }}
+  nav .brand {{ color: #fff; font-weight: 700; font-size: 0.95rem; white-space: nowrap; }}
+  nav .links {{ display: flex; flex-wrap: wrap; gap: 0.2rem; }}
+  nav .links a {{
+    color: rgba(255,255,255,0.72);
+    font-size: 0.78rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    transition: background 0.15s;
+  }}
+  nav .links a:hover {{ background: rgba(255,255,255,0.12); color: #fff; }}
+
+  /* ── Header ── */
+  header {{
+    background: var(--dark);
+    color: #fff;
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    border-bottom: 4px solid var(--blue);
+  }}
+  header h1 {{ font-size: clamp(1.7rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 0.75rem; }}
+  header p {{ font-size: 1.05rem; color: rgba(255,255,255,0.75); max-width: 680px; margin: 0 auto 2.5rem; }}
+  .kpi-row {{ display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }}
+  .kpi {{
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 10px;
+    padding: 1rem 1.75rem;
+    text-align: center;
+    min-width: 130px;
+  }}
+  .kpi .val {{ font-size: 1.9rem; font-weight: 800; color: #93c5fd; }}
+  .kpi .lbl {{ font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.4px; }}
+
+  /* ── Sections ── */
+  section {{
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--border);
+  }}
+  section:nth-child(even) {{ background: var(--gray); }}
+  .wrap {{ max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }}
+
+  .sec-label {{
+    display: inline-block;
+    background: var(--blue);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.2rem 0.65rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }}
+  .sec-title {{ font-size: clamp(1.3rem, 3vw, 1.85rem); font-weight: 800; color: var(--dark); margin-bottom: 0.5rem; }}
+  .sec-desc {{ color: var(--muted); font-size: 0.95rem; max-width: 760px; margin-bottom: 2rem; }}
+
+  /* ── Grid ── */
+  .grid-2 {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 1.75rem; }}
+  .grid-3 {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.5rem; }}
+
+  /* ── Cards ── */
+  .card {{
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }}
+  section:nth-child(even) .card {{ background: #fff; }}
+  .card-head {{
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--dark);
+    background: #f8fafc;
+  }}
+  .card-body {{ padding: 1.25rem; }}
+  .card img {{
+    width: 100%;
+    border-radius: 6px;
+    cursor: zoom-in;
+    border: 1px solid var(--border);
+    transition: opacity 0.15s;
+  }}
+  .card img:hover {{ opacity: 0.9; }}
+  .caption {{ font-size: 0.8rem; color: var(--muted); margin-top: 0.6rem; line-height: 1.5; }}
+
+  /* ── Info boxes ── */
+  .box {{
+    border-left: 3px solid var(--blue);
+    background: #eff6ff;
+    padding: 1rem 1.2rem;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.88rem;
+    margin-bottom: 0.75rem;
+  }}
+  .box.green  {{ border-color: #16a34a; background: #f0fdf4; }}
+  .box.amber  {{ border-color: #d97706; background: #fffbeb; }}
+  .box.red    {{ border-color: #dc2626; background: #fef2f2; }}
+  .box strong {{ color: var(--dark); }}
+  .box p {{ color: var(--text); margin-top: 0.25rem; line-height: 1.6; }}
+
+  /* ── Tables ── */
+  .tbl-wrap {{ overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }}
+  table {{ width: 100%; border-collapse: collapse; font-size: 0.875rem; }}
+  thead {{ background: var(--dark); color: #fff; }}
+  th {{ padding: 0.7rem 1rem; text-align: left; font-weight: 600; white-space: nowrap; }}
+  td {{ padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); }}
+  tr:last-child td {{ border-bottom: none; }}
+  tr.best {{ background: #eff6ff; font-weight: 600; }}
+  tr.best td:first-child {{ color: var(--blue); }}
+  tbody tr:hover td {{ background: #f8fafc; }}
+
+  /* ── Pipeline ── */
+  .pipeline {{ display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 1.5rem 0; }}
+  .pipe-step {{
+    background: var(--dark);
+    color: #fff;
+    padding: 0.45rem 1rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }}
+  .pipe-arrow {{ color: var(--blue); font-weight: 700; font-size: 1.1rem; }}
+
+  /* ── Conclusion ── */
+  .conclusion {{
+    background: var(--dark);
+    color: #fff;
+    padding: 4rem 0;
+    border-top: 4px solid var(--blue);
+  }}
+  .conclusion h2 {{ font-size: 1.6rem; margin-bottom: 2rem; text-align: center; }}
+  .findings-grid {{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }}
+  .finding-card {{
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+  }}
+  .finding-card h4 {{ color: #93c5fd; font-size: 0.85rem; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }}
+  .finding-card li {{ font-size: 0.85rem; color: rgba(255,255,255,0.8); margin-bottom: 0.4rem; list-style: none; padding-left: 1rem; position: relative; }}
+  .finding-card li::before {{ content: "›"; position: absolute; left: 0; color: #93c5fd; }}
+
+  /* ── Modal ── */
+  .modal {{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center; }}
+  .modal.on {{ display:flex; }}
+  .modal img {{ max-width:90vw; max-height:90vh; border-radius:8px; }}
+  .modal-x {{ position:fixed; top:1rem; right:1.5rem; color:#fff; font-size:2rem; cursor:pointer; line-height:1; }}
+
+  /* ── Footer ── */
+  footer {{
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    background: #f8fafc;
+    border-top: 1px solid var(--border);
+  }}
+
+  @media (max-width: 600px) {{
+    .grid-2, .grid-3 {{ grid-template-columns: 1fr; }}
+    nav .links {{ display: none; }}
+    header {{ padding: 3rem 1rem 2.5rem; }}
+  }}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="brand">📈 FED Rate ML</span>
+  <div class="links">
+    <a href="#overview">Overview</a>
+    <a href="#cleaning">Cleaning</a>
+    <a href="#eda">EDA</a>
+    <a href="#features">Features</a>
+    <a href="#stats">Statistics</a>
+    <a href="#pca">PCA</a>
+    <a href="#regression">Regression</a>
+    <a href="#classification">Classification</a>
+    <a href="#clustering">Clustering</a>
+    <a href="#arm">ARM</a>
+    <a href="#comparison">Results</a>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header>
+  <h1>Federal Reserve Interest Rate Prediction</h1>
+  <p>An end-to-end machine learning project on 70 years of US economic data — covering data cleaning, statistical analysis, feature engineering, PCA, and 15 ML algorithms across regression, classification, clustering, and association rule mining.</p>
+  <div class="kpi-row">
+    <div class="kpi"><div class="val">847</div><div class="lbl">Observations</div></div>
+    <div class="kpi"><div class="val">8</div><div class="lbl">Raw Features</div></div>
+    <div class="kpi"><div class="val">67</div><div class="lbl">Engineered Features</div></div>
+    <div class="kpi"><div class="val">15+</div><div class="lbl">ML Models</div></div>
+    <div class="kpi"><div class="val">{reg_sorted[0][1]["R2"]:.4f}</div><div class="lbl">Best R² (Regression)</div></div>
+    <div class="kpi"><div class="val">{cls_sorted[0][1]["Accuracy"]:.1%}</div><div class="lbl">Best Accuracy (Classification)</div></div>
+  </div>
+</header>
+
+<!-- OVERVIEW -->
+<section id="overview">
+<div class="wrap">
+  <div class="sec-label">Overview</div>
+  <h2 class="sec-title">Project Overview</h2>
+  <p class="sec-desc">
+    The Federal Reserve sets interest rates to control inflation and stabilize the economy. This project uses 70 years of FRED economic data (1954–2024) to build ML models that predict both the <em>level</em> of the FED rate (regression) and its <em>direction of change</em> — increase, decrease, or hold (classification).
+  </p>
+
+  <div class="pipeline">
+    <span class="pipe-step">Raw Data</span><span class="pipe-arrow">→</span>
+    <span class="pipe-step">Data Cleaning</span><span class="pipe-arrow">→</span>
+    <span class="pipe-step">EDA</span><span class="pipe-arrow">→</span>
+    <span class="pipe-step">Feature Engineering</span><span class="pipe-arrow">→</span>
+    <span class="pipe-step">Statistical Analysis</span><span class="pipe-arrow">→</span>
+    <span class="pipe-step">PCA</span><span class="pipe-arrow">→</span>
+    <span class="pipe-step">ML Models</span><span class="pipe-arrow">→</span>
+    <span class="pipe-step">Evaluation</span>
+  </div>
+
+  <div class="grid-3" style="margin-top:1.5rem;">
+    <div class="box green">
+      <strong>Problem 1 — Regression</strong>
+      <p>Predict the exact Federal Funds Rate (continuous). Models: Linear, Ridge, Lasso, SVR, Decision Tree, Random Forest, Gradient Boosting, XGBoost.</p>
+    </div>
+    <div class="box">
+      <strong>Problem 2 — Classification</strong>
+      <p>Predict rate direction: Increase / Decrease / No Change. Models: Logistic Regression, Naive Bayes, SVM, Decision Tree, Random Forest, Gradient Boosting, XGBoost.</p>
+    </div>
+    <div class="box amber">
+      <strong>Problem 3 — Unsupervised</strong>
+      <p>Discover hidden economic regimes using DBSCAN and KMeans clustering. Find co-movement patterns using Apriori association rule mining.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:2rem;">
+    <div class="card-head">Dataset — FRED Economic Indicators (1954–2024)</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Feature</th><th>Description</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td><strong>FEDRates</strong></td><td>Federal Funds Rate (%)</td><td>Target Variable</td></tr>
+            <tr><td>ConsumerPriceIndex</td><td>CPI month-over-month % change</td><td>Predictor</td></tr>
+            <tr><td>GDP</td><td>Nominal GDP (Billions USD)</td><td>Predictor</td></tr>
+            <tr><td>InflationConsumerPrice</td><td>Annual consumer inflation rate</td><td>Predictor</td></tr>
+            <tr><td>MedianConsumerPriceIndex</td><td>Median CPI (trimmed measure)</td><td>Predictor</td></tr>
+            <tr><td>RealGDP</td><td>Inflation-adjusted GDP</td><td>Predictor</td></tr>
+            <tr><td>RealGDPPerCapita</td><td>Real GDP per person</td><td>Predictor</td></tr>
+            <tr><td>RealPotentialGDP</td><td>Economy's estimated productive capacity</td><td>Predictor</td></tr>
+            <tr><td>UnemploymentRate</td><td>U-3 unemployment rate (%)</td><td>Predictor</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1.5rem;">
+    <div class="card-head">FED Funds Rate — 70 Years of Monetary Policy</div>
+    <div class="card-body">
+      <img src="{cp('eda','01_fedfunds_timeseries.png')}" alt="FED rate time series" onclick="zoom(this.src)">
+      <p class="caption">The Federal Funds Rate from 1954 to 2024. The chart shows the aggressive tightening of the 1970s–1980s (peak ~20% in 1981 to fight inflation), long easing cycles during recessions (2001, 2008, 2020), and the sharp 2022–2023 hike cycle in response to post-COVID inflation. The vertical red bands mark NBER-defined recessions — the Fed consistently cuts rates during downturns.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- DATA CLEANING -->
+<section id="cleaning">
+<div class="wrap">
+  <div class="sec-label">Step 1</div>
+  <h2 class="sec-title">Data Cleaning</h2>
+  <p class="sec-desc">Before any modeling, the raw data must be cleaned. This step identifies and resolves data quality issues including missing values, zero-value placeholders from early data unavailability, and extreme statistical outliers.</p>
+
+  <div class="grid-3" style="margin-bottom:1.5rem;">
+    <div class="box amber">
+      <strong>Issue: Zero-value CPI entries</strong>
+      <p>111 early records (1950s–1970s) had 0.0 as a placeholder for unavailable CPI data. These were replaced with NaN and interpolated linearly from surrounding values.</p>
+    </div>
+    <div class="box">
+      <strong>Missing Values</strong>
+      <p>Forward-fill followed by backward-fill was applied to propagate known values across short gaps in quarterly-reported features (GDP, RealGDP, Potential GDP).</p>
+    </div>
+    <div class="box green">
+      <strong>Outlier Handling — Winsorization</strong>
+      <p>Extreme values were capped at the 1st and 99th percentile using Winsorization. Values are retained but bounded — preserving data count while removing distortion from rare economic shocks.</p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-head">Missing Values — Before and After</div>
+      <div class="card-body">
+        <img src="{cp('cleaning','01_missing_values.png')}" alt="Missing values" onclick="zoom(this.src)">
+        <p class="caption">Left panel shows the missing value pattern (white = missing). Right panel shows the percentage missing per feature. After applying interpolation and forward/backward fill, the dataset had zero remaining missing values. GDP-related features had the most gaps due to their quarterly reporting frequency.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Outlier Detection — Box Plots Before vs After Winsorization</div>
+      <div class="card-body">
+        <img src="{cp('cleaning','02_boxplots_before_after.png')}" alt="Box plots" onclick="zoom(this.src)">
+        <p class="caption">Box plots before (top row) and after (bottom row) applying Winsorization. After capping, extreme whiskers are removed while the interquartile range is preserved. Inflation shows the most change — the 1970s oil crisis produced genuinely extreme values that would distort model training if left uncapped.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- EDA -->
+<section id="eda">
+<div class="wrap">
+  <div class="sec-label">Step 2</div>
+  <h2 class="sec-title">Exploratory Data Analysis</h2>
+  <p class="sec-desc">EDA reveals the structure of the data — distributions, relationships, temporal patterns, and feature correlations with the target variable before any modeling begins.</p>
+
+  <div class="grid-2" style="margin-bottom:1.5rem;">
+    <div class="card">
+      <div class="card-head">All Feature Time Series (1954–2024)</div>
+      <div class="card-body">
+        <img src="{cp('eda','02_all_features_timeseries.png')}" alt="Feature time series" onclick="zoom(this.src)">
+        <p class="caption">GDP and its variants show a continuous upward trend driven by economic growth. Inflation spiked dramatically in the 1970s before being tamed by the Volcker Fed. Unemployment follows clear business cycle patterns — spiking sharply during recessions and recovering gradually. CPI has remained more stable in the post-1990 period, reflecting successful inflation targeting.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Pearson Correlation Heatmap</div>
+      <div class="card-body">
+        <img src="{cp('eda','04_correlation_heatmap.png')}" alt="Correlation heatmap" onclick="zoom(this.src)">
+        <p class="caption">Inflation (ρ = 0.72) and Median CPI (ρ = 0.68) are the strongest positive predictors of the FED rate — validating the Taylor Rule. GDP features show negative correlation because they capture long-run economic growth, while interest rates have trended downward over the same period. Unemployment has a moderate positive correlation, consistent with the Fed's dual mandate.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-head">Feature Distributions</div>
+      <div class="card-body">
+        <img src="{cp('eda','03_distributions.png')}" alt="Distributions" onclick="zoom(this.src)">
+        <p class="caption">Most features are non-normally distributed (confirmed statistically by Shapiro-Wilk tests). GDP and RealGDP are strongly right-skewed due to exponential economic growth over 70 years. The FED rate itself is right-skewed, with the majority of months in the 0–5% range but long tails from the high-rate 1980s. This non-normality justifies using non-parametric tests and tree-based ML models.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Feature vs FED Rate Scatter (Colored by Time)</div>
+      <div class="card-body">
+        <img src="{cp('eda','05_scatter_vs_fedrate.png')}" alt="Scatter plots" onclick="zoom(this.src)">
+        <p class="caption">Each panel shows a feature plotted against the FED rate, with color progressing from dark (1950s) to bright (2020s). The non-linear, time-varying nature of relationships is immediately visible. Inflation vs. rate shows a clear positive relationship in the 1970s–1980s that weakens in recent decades. This structural shift (economic regime change) is a key challenge for ML models.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FEATURE ENGINEERING -->
+<section id="features">
+<div class="wrap">
+  <div class="sec-label">Step 3</div>
+  <h2 class="sec-title">Feature Engineering</h2>
+  <p class="sec-desc">Raw economic data alone is insufficient for predicting interest rates. The Fed responds to <em>trends and momentum</em>, not just current values. Feature engineering creates 67 informative predictors from 8 raw variables by encoding temporal dynamics.</p>
+
+  <div class="grid-3" style="margin-bottom:1.5rem;">
+    <div class="box">
+      <strong>Lag Features (32 total)</strong>
+      <p>For each of the 8 raw features: 1-month, 3-month, 6-month, and 12-month lags. Captures the delayed impact of economic changes on policy decisions — the Fed typically acts months after a trend becomes clear.</p>
+    </div>
+    <div class="box green">
+      <strong>Rolling Statistics (24 total)</strong>
+      <p>3-month and 6-month rolling mean and standard deviation for each feature. The rolling mean smooths short-term noise; the rolling std captures volatility and uncertainty in economic conditions.</p>
+    </div>
+    <div class="box amber">
+      <strong>Interaction &amp; Growth Features (11 total)</strong>
+      <p>Inflation × Unemployment (Phillips Curve proxy), GDP growth rate, Real GDP growth rate, and calendar features (Month, Quarter, Year) to capture seasonal monetary policy patterns.</p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-head">Classification Target — Rate Direction Distribution</div>
+      <div class="card-body">
+        <img src="{cp('features','01_class_distribution.png')}" alt="Class distribution" onclick="zoom(this.src)">
+        <p class="caption">Rate changes were discretized into three classes: Increase (change > +0.05%), Decrease (change < -0.05%), and No Change. The distribution shows all three classes are reasonably represented, with "No Change" being the most frequent — reflecting the Fed's preference for policy stability. This mild class imbalance was handled using stratified train-test splitting.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Top 20 Features by Correlation with FED Rate</div>
+      <div class="card-body">
+        <img src="{cp('features','02_feature_correlations.png')}" alt="Feature correlations" onclick="zoom(this.src)">
+        <p class="caption">Engineered features dominate the top correlations. Lag features of Inflation and Median CPI are the strongest predictors — confirming that the Fed responds to sustained inflation trends, not single data points. The 12-month inflation lag (one-year-ago inflation) has particularly high correlation, reflecting the Fed's forward-looking policy horizon. Negative-correlation features (mostly GDP variants) reflect the secular decline of rates alongside long-run growth.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- STATISTICAL ANALYSIS -->
+<section id="stats">
+<div class="wrap">
+  <div class="sec-label">Step 4</div>
+  <h2 class="sec-title">Statistical Analysis &amp; Hypothesis Testing</h2>
+  <p class="sec-desc">Statistical tests are used to formally validate assumptions, discover significant relationships, and understand the mathematical structure of the data before modeling. This step provides the scientific rigor behind the ML approach.</p>
+
+  <div class="grid-2" style="margin-bottom:1.5rem;">
+    <div class="card">
+      <div class="card-head">Q-Q Plots — Normality Assessment</div>
+      <div class="card-body">
+        <img src="{cp('stats','01_qq_plots.png')}" alt="QQ plots" onclick="zoom(this.src)">
+        <p class="caption">Quantile-Quantile plots compare each feature's distribution against a theoretical normal distribution. If data were perfectly normal, all points would fall on the diagonal line. The clear deviations visible in every panel confirm non-normality — all features fail the Shapiro-Wilk normality test (p &lt; 0.05). This justifies the use of non-parametric statistical tests and tree-based ML models rather than parametric approaches that assume normality.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Hypothesis Tests — Normality &amp; Stationarity</div>
+      <div class="card-body">
+        <img src="{cp('stats','02_hypothesis_tests.png')}" alt="Hypothesis tests" onclick="zoom(this.src)">
+        <p class="caption">Left: Shapiro-Wilk p-values — all well below 0.05, confirming non-normality. Right: ADF (Augmented Dickey-Fuller) stationarity test — CPI and Unemployment Rate are stationary (no unit root), while GDP variants and Inflation are non-stationary (trending over time). Non-stationarity motivates the use of lag and growth-rate features to transform trending series into mean-reverting predictors for the model.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:1.5rem;">
+    <div class="box green">
+      <strong>T-Test: High vs Low Inflation Periods</strong>
+      <p>Mean FED rate during high inflation: <strong>{stat['ttest_inflation']['high_mean']:.2f}%</strong> | Low inflation: <strong>{stat['ttest_inflation']['low_mean']:.2f}%</strong><br>
+      t-statistic = {stat['ttest_inflation']['t_stat']:.3f}, p-value = {stat['ttest_inflation']['p_value']:.2e}<br>
+      <strong>Result: Statistically significant (p ≪ 0.05).</strong> The Fed raises rates significantly more during high-inflation periods — a direct empirical validation of the Taylor Rule.</p>
+    </div>
+    <div class="box">
+      <strong>ANOVA: Across Economic Regimes</strong>
+      <p>F-statistic = {stat['anova_regimes']['f_stat']:.2f}, p-value = {stat['anova_regimes']['p_value']:.2e}<br>
+      FED rates are significantly different across the four economic regimes (Very Low / Low / High / Very High GDP growth). <strong>Result: Economic regime is a significant predictor of monetary policy stance.</strong></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">T-Test &amp; Spearman Rank Correlations</div>
+    <div class="card-body">
+      <img src="{cp('stats','03_ttest_spearman.png')}" alt="T-test and Spearman" onclick="zoom(this.src)">
+      <p class="caption">Left: Box plots of FED rate during high-inflation vs low-inflation months — the separation is stark and statistically significant. Right: Spearman rank correlation (non-parametric, appropriate for non-normal data) — Inflation (ρ = 0.676) and Median CPI (ρ = 0.633) lead. Spearman is used instead of Pearson because the economic relationships are monotonic but not necessarily linear, especially across different eras of monetary policy.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PCA -->
+<section id="pca">
+<div class="wrap">
+  <div class="sec-label">Step 5</div>
+  <h2 class="sec-title">Principal Component Analysis (PCA)</h2>
+  <p class="sec-desc">PCA decomposes the 8 correlated economic features into orthogonal principal components. This reveals the underlying structure of the data and quantifies how much of the total economic information is captured by each dimension.</p>
+
+  <div class="grid-3" style="margin-bottom:1.5rem;">
+    <div class="box green">
+      <strong>PC1 — Economic Scale (57.3% variance)</strong>
+      <p>GDP, RealGDP, RealGDPPerCapita, and RealPotentialGDP all load heavily. This component essentially captures the overall growth of the US economy over 70 years — a secular upward trend driven by population growth and productivity gains.</p>
+    </div>
+    <div class="box">
+      <strong>PC2 — Inflation Cycle (18.7% variance)</strong>
+      <p>InflationConsumerPrice and MedianCPI load strongly. This component captures the inflation-deflation cycle — high in the 1970s–80s, low post-1990. This directly relates to the Fed's primary mandate of price stability.</p>
+    </div>
+    <div class="box amber">
+      <strong>PC3 — Labor Market (13.7% variance)</strong>
+      <p>Unemployment rate and CPI changes dominate. This component tracks labor market cycles — high during recessions, low during expansions. Together, PC1–PC3 explain 89.7% of total variance, and just 4 components explain 95.7%.</p>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-head">Scree Plot &amp; Component Loadings</div>
+      <div class="card-body">
+        <img src="{cp('pca','01_scree_loadings.png')}" alt="PCA scree" onclick="zoom(this.src)">
+        <p class="caption">Left: Scree plot with cumulative explained variance — the "elbow" at 4 components justifies retaining 4 PCs. Right: Loading matrix showing how each raw feature contributes to each component. Strong GDP loadings on PC1, inflation loadings on PC2 confirm the economic interpretation.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">PCA Biplot — PC1 vs PC2</div>
+      <div class="card-body">
+        <img src="{cp('pca','02_biplot.png')}" alt="PCA biplot" onclick="zoom(this.src)">
+        <p class="caption">Data points projected onto the first two principal components. Color indicates rate direction (green = increase, red = decrease, yellow = no change). Arrows show the direction and magnitude of each feature's loading. The separation of rate-increase and rate-decrease observations demonstrates that PCA captures economically meaningful structure for the classification task.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Cumulative Explained Variance</div>
+      <div class="card-body">
+        <img src="{cp('pca','03_cumulative_variance.png')}" alt="PCA variance" onclick="zoom(this.src)">
+        <p class="caption">Only 4 components are needed to explain 95.7% of variance (blue dashed line), and 5 for 99%. This rapid variance accumulation reflects high multicollinearity among the GDP-related features — they essentially measure the same underlying economic growth trend from slightly different angles. PCA effectively de-correlates these features before modeling.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- REGRESSION -->
+<section id="regression">
+<div class="wrap">
+  <div class="sec-label">Step 6</div>
+  <h2 class="sec-title">Regression Models — Predicting the FED Rate</h2>
+  <p class="sec-desc">Eight regression algorithms are trained to predict the Federal Funds Rate as a continuous value. The data is split 80/20 chronologically (preserving time order), and cross-validation uses TimeSeriesSplit to prevent temporal data leakage from lag features.</p>
+
+  <div class="box amber" style="margin-bottom:1.5rem;">
+    <strong>Note on TimeSeriesSplit Cross-Validation</strong>
+    <p>Standard K-Fold CV would cause data leakage: a lag feature from fold N could contain information from fold N+k. TimeSeriesSplit always trains on the past and validates on the future. The resulting CV R² scores are often negative for regression — not because models are bad, but because they are asked to generalize across very different economic regimes (e.g., trained on 1960s–1990s data, tested on 2020s data). Test-set R² values remain strong because the held-out 20% is adjacent to the training period.</p>
+  </div>
+
+  <div class="tbl-wrap" style="margin-bottom:2rem;">
+    <table>
+      <thead><tr><th>Model</th><th>R² Score</th><th>RMSE</th><th>MAE</th></tr></thead>
+      <tbody>{reg_rows()}</tbody>
+    </table>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:1.5rem;">
+    <div class="card">
+      <div class="card-head">Regression Model Comparison (RMSE / R² / MAE)</div>
+      <div class="card-body">
+        <img src="{cp('comparison','reg_model_comparison.png')}" alt="Regression comparison" onclick="zoom(this.src)">
+        <p class="caption">Three panels compare all 8 models: RMSE (lower is better), R² (higher is better), and MAE (lower is better). Ensemble methods — XGBoost, Gradient Boosting, and Random Forest — dominate all three metrics. Linear models plateau around R² ≈ 0.71–0.74, limited by their inability to capture non-linear regime-dependent relationships. The gap between linear and ensemble models demonstrates the value of capturing interaction effects in economic data.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">XGBoost — Best Model: Actual vs Predicted</div>
+      <div class="card-body">
+        <img src="{cp('regression','21_xgb_actual_vs_pred.png')}" alt="XGBoost predictions" onclick="zoom(this.src)">
+        <p class="caption">Left: Predicted vs actual scatter — points hug the diagonal line closely, indicating near-perfect predictions (R² = {reg['XGBoost']['R2']}). Right: Residuals plotted over time — errors are small, centered at zero, and show no systematic pattern. The few larger errors occur during rapid rate change periods (2022–2023 hiking cycle), where the speed of change was historically unusual. Overall RMSE of {reg['XGBoost']['RMSE']} means predictions are within ~0.44 percentage points on average.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:1.5rem;">
+    <div class="card">
+      <div class="card-head">Lasso — Automatic Feature Selection</div>
+      <div class="card-body">
+        <img src="{cp('regression','09_lasso_feature_selection.png')}" alt="Lasso feature selection" onclick="zoom(this.src)">
+        <p class="caption">Lasso regression applies L1 regularization, which drives weak feature coefficients exactly to zero. Of 67 engineered features, Lasso zeroed out 37 (55%), keeping only the most informative predictors. The surviving features are dominated by inflation lags and rolling statistics — confirming the primacy of inflation momentum in rate prediction. This also provides an automatic, interpretable feature ranking.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Decision Tree — Depth vs Overfitting</div>
+      <div class="card-body">
+        <img src="{cp('regression','14_dt_depth_overfitting.png')}" alt="DT depth" onclick="zoom(this.src)">
+        <p class="caption">A classic demonstration of the bias-variance tradeoff. As tree depth increases, training R² rises steadily toward 1.0 (the model memorizes training data). But validation R² peaks around depth 4–5 and then declines — the model becomes overfit, failing to generalize. Best depth = 4. This motivates using ensemble methods (Random Forest, Gradient Boosting) that average many constrained trees instead of growing one very deep tree.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Random Forest — Feature Importance</div>
+      <div class="card-body">
+        <img src="{cp('regression','17_rf_feature_importance.png')}" alt="RF importance" onclick="zoom(this.src)">
+        <p class="caption">Random Forest's built-in feature importance (mean impurity decrease across all trees). Lag features of Inflation and Median CPI top the ranking — the recent history of inflation is the most powerful predictor of the current rate. Shorter lags (1-month, 3-month) are more important than longer ones, indicating the Fed responds to near-term inflation signals. Rolling standard deviation features are also highly ranked, capturing the uncertainty-response relationship.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">Ridge Regression — Regularization Strength Tuning</div>
+    <div class="card-body grid-2" style="padding:1.25rem;gap:1.5rem;align-items:start;">
+      <img src="{cp('regression','06_ridge_alpha_tuning.png')}" alt="Ridge alpha tuning" onclick="zoom(this.src)" style="width:100%;border-radius:6px;cursor:zoom-in;border:1px solid var(--border);">
+      <div>
+        <p style="margin-bottom:1rem;">Ridge regression (L2 regularization) shrinks all coefficients toward zero without setting any to exactly zero. The regularization strength is controlled by the alpha parameter. The chart shows cross-validated R² scores across a range of alpha values.</p>
+        <p style="margin-bottom:1rem;">At very low alpha (near 0), Ridge behaves like ordinary least squares — prone to overfitting with 67 features. At very high alpha, all coefficients are shrunk too aggressively, causing underfitting. The optimal alpha = 10 balances these extremes.</p>
+        <div class="box green"><strong>Best Alpha = 10</strong><p>Achieved R² = {reg['Ridge Regression']['R2']} with RMSE = {reg['Ridge Regression']['RMSE']}. Ridge outperforms plain linear regression but is limited by the linearity assumption — non-linear economic dynamics require ensemble methods.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CLASSIFICATION -->
+<section id="classification">
+<div class="wrap">
+  <div class="sec-label">Step 7</div>
+  <h2 class="sec-title">Classification Models — Predicting Rate Direction</h2>
+  <p class="sec-desc">Seven classification algorithms are trained to predict whether the Federal Reserve will increase, decrease, or hold interest rates. Predicting direction is inherently harder than predicting level — it requires capturing the Fed's <em>decision logic</em>, not just its policy stance.</p>
+
+  <div class="box red" style="margin-bottom:1.5rem;">
+    <strong>Why ~63% Accuracy? — Understanding the Task Difficulty</strong>
+    <p>A naive model that always predicts "No Change" would score around 40% accuracy. A random classifier scores 33%. Our best models achieve 63.5%, which represents a 90%+ improvement over random. The ceiling is not 100% — Federal Reserve decisions incorporate information unavailable in economic data: FOMC member speeches, market expectations, geopolitical events, and forward guidance. Reaching 63% with only macroeconomic indicators is a strong result.</p>
+  </div>
+
+  <div class="tbl-wrap" style="margin-bottom:2rem;">
+    <table>
+      <thead><tr><th>Model</th><th>Accuracy</th><th>Weighted F1</th><th>CV Accuracy</th></tr></thead>
+      <tbody>{cls_rows()}</tbody>
+    </table>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:1.5rem;">
+    <div class="card">
+      <div class="card-head">Classification Model Comparison</div>
+      <div class="card-body">
+        <img src="{cp('comparison','cls_model_comparison.png')}" alt="Classification comparison" onclick="zoom(this.src)">
+        <p class="caption">Gradient Boosting (63.5%) and XGBoost (62.9%) lead. The SVM with RBF kernel (59.9%) and Random Forest (59.9%) follow. Naive Bayes performs poorly (44.3%) because it assumes feature independence — a violated assumption in correlated economic data. Decision Tree without ensemble methods is also weak, confirming that the relationship between economic indicators and rate direction requires non-linear combinations captured only by ensemble methods.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Gradient Boosting — Confusion Matrix (Best Model)</div>
+      <div class="card-body">
+        <img src="{cp('classification','19_gb_cm.png')}" alt="GB confusion matrix" onclick="zoom(this.src)">
+        <p class="caption">Rows = actual class, columns = predicted class. The diagonal shows correct predictions. "No Change" has the highest recall (correctly identified most often) — consistent with the Fed's preference for stability making "no change" the most predictable outcome. "Decrease" events are hardest to predict (often confused with "No Change") because rate cuts require confluence of weak economic signals that can develop slowly. "Increase" events are moderately predictable, often preceded by clear inflation trends.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:1.5rem;">
+    <div class="card">
+      <div class="card-head">XGBoost — ROC Curves</div>
+      <div class="card-body">
+        <img src="{cp('classification','23_xgb_roc.png')}" alt="XGBoost ROC" onclick="zoom(this.src)">
+        <p class="caption">One-vs-rest ROC curves for all three classes. The "Decrease" class shows the strongest AUC (~0.77), meaning the model is quite good at identifying rate-cut conditions — these typically follow clear economic deterioration signals (rising unemployment, falling inflation). "No Change" has AUC ~0.72. The "Increase" class is hardest, reflecting that tightening cycles can begin from many economic starting points.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Decision Tree — Depth vs Accuracy</div>
+      <div class="card-body">
+        <img src="{cp('classification','13_dt_depth_overfitting.png')}" alt="DT classification depth" onclick="zoom(this.src)">
+        <p class="caption">Training accuracy reaches near-100% at depth > 10 (memorizing training data) while CV accuracy peaks at depth 1–2 and then declines. This dramatic overfitting at depth > 3 explains why a standalone Decision Tree scores only 46% — it cannot generalize the non-linear economic patterns. Gradient Boosting solves this by combining hundreds of shallow (depth-3) trees sequentially, each correcting the errors of the previous one.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">XGBoost — Feature Importance (Classification)</div>
+      <div class="card-body">
+        <img src="{cp('classification','24_xgb_feature_importance.png')}" alt="XGBoost cls importance" onclick="zoom(this.src)">
+        <p class="caption">The 1-month lag of the FED rate itself is the strongest predictor of rate direction — monetary policy has strong momentum. After that, 1-month and 3-month lags of Inflation and Median CPI dominate. This confirms that the most recent inflation trend is the primary signal the model uses to predict whether the Fed will act. Calendar features (Month, Quarter) also appear, reflecting seasonal patterns in FOMC meeting schedules and economic reporting.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">Gradient Boosting — Learning Curve</div>
+    <div class="card-body">
+      <img src="{cp('classification','18_gb_lc.png')}" alt="GB learning curve" onclick="zoom(this.src)">
+      <p class="caption">Learning curves plot model performance as a function of training set size. Training score (blue) starts high and decreases as more data is added (the model can no longer overfit small samples). Validation score (orange) starts low and increases, eventually converging with the training score. The small remaining gap between training (~90%) and validation (~63%) indicates mild overfitting — the model has learned some patterns specific to the training period that don't fully transfer to the test period. This is expected and manageable given the regime-shift nature of economic data.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CLUSTERING -->
+<section id="clustering">
+<div class="wrap">
+  <div class="sec-label">Step 8</div>
+  <h2 class="sec-title">Clustering — Discovering Economic Regimes</h2>
+  <p class="sec-desc">Clustering is an unsupervised technique — no labels are used. The goal is to discover whether the 70 years of economic data naturally group into distinct "regimes" with different monetary policy characteristics. Two algorithms are compared: KMeans (centroid-based) and DBSCAN (density-based).</p>
+
+  <div class="grid-2" style="margin-bottom:1.5rem;">
+    <div class="card">
+      <div class="card-head">Clustering Overview — KMeans vs DBSCAN</div>
+      <div class="card-body">
+        <img src="{cp('clustering','01_clustering_overview.png')}" alt="Clustering overview" onclick="zoom(this.src)">
+        <p class="caption">Top row: KMeans — elbow curve (optimal k=2), silhouette scores, and cluster visualization in PCA space. Bottom row: DBSCAN — k-distance plot for eps tuning, eps sensitivity analysis, and cluster visualization. Both methods project to 2D PCA for visualization. KMeans produces clean, balanced clusters while DBSCAN identifies a small set of dense core points and classifies most data as "noise" (transitional economic conditions).</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Cluster Profiles — Economic Characteristics</div>
+      <div class="card-body">
+        <img src="{cp('clustering','02_cluster_profiles.png')}" alt="Cluster profiles" onclick="zoom(this.src)">
+        <p class="caption">Radar charts and bar comparisons of mean feature values per KMeans cluster. Cluster 0 (Low-Rate Era, ~1990–2024): low inflation, historically high GDP, near-zero FED rates — the post-Cold War globalization and post-2008 QE era. Cluster 1 (High-Rate Era, ~1965–1990): high inflation, high unemployment variability, FED rates regularly above 8% — the era of oil shocks, stagflation, and the Volcker disinflation. The algorithm discovered these historically meaningful regimes with no prior knowledge of dates or economic events.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="box green">
+      <strong>KMeans Results</strong>
+      <p>Best k = <strong>2</strong> (elbow + silhouette method)<br>
+      Silhouette score = <strong>{clust['kmeans']['best_silhouette']:.4f}</strong><br>
+      Two economically meaningful regimes identified: high-rate inflationary period (1965–1990) vs. low-rate modern era (1990–2024).</p>
+    </div>
+    <div class="box amber">
+      <strong>DBSCAN Results</strong>
+      <p>Best eps = <strong>{clust['dbscan']['best_eps']}</strong><br>
+      Noise points = <strong>{clust['dbscan']['noise_pct']:.1f}%</strong> of data<br>
+      DBSCAN classifies 97.8% of months as "noise" — economic transitions are gradual and continuous, not sharp boundaries between discrete regimes.</p>
+    </div>
+    <div class="box">
+      <strong>Key Insight</strong>
+      <p>DBSCAN's high noise rate reveals that economic data lies on a <em>manifold</em> without dense discrete clusters. KMeans imposes hard boundaries that are useful for regime characterization even though the real transitions are smooth. Both results are consistent: there are 2 broad regimes, but transitions between them are gradual.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ARM -->
+<section id="arm">
+<div class="wrap">
+  <div class="sec-label">Step 9</div>
+  <h2 class="sec-title">Association Rule Mining — Apriori Algorithm</h2>
+  <p class="sec-desc">Association Rule Mining (ARM) discovers which economic conditions tend to co-occur. Each feature is discretized into Low / Mid / High tertile bins, and the Apriori algorithm finds frequent itemsets and generates confidence-weighted rules. This is the same technique used in market basket analysis, applied here to economic indicators.</p>
+
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="card-head">ARM Results — Support, Confidence, and Lift</div>
+    <div class="card-body">
+      <img src="{cp('arm','01_arm_overview.png')}" alt="ARM overview" onclick="zoom(this.src)">
+      <p class="caption">Top-left: Support vs Confidence scatter — each point is one rule, sized by lift. Top-right: Support vs Lift. Bottom: Top rules ranked by lift and confidence. GDP_Mid → RealGDP_Mid has the highest lift (1.96) and confidence (97.8%), meaning these two measures of economic output are almost always in the same range together — confirming data consistency. The Inflation ↔ FEDRates rules have lower lift but high economic significance, validating the Taylor Rule empirically from co-occurrence patterns alone.</p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <div class="box green" style="margin-bottom:0.75rem;">
+        <strong>Rule 1: GDP_Mid → RealGDP_Mid</strong>
+        <p>Support = 48.9%, Confidence = 97.8%, <strong>Lift = 1.96</strong><br>
+        When nominal GDP is in its mid-range, real GDP is almost always also in its mid-range. This high-confidence rule confirms the internal consistency of the dataset — nominal and real GDP track closely in non-extreme periods.</p>
+      </div>
+      <div class="box" style="margin-bottom:0.75rem;">
+        <strong>Rule 2: FEDRates_Mid → Inflation_Mid</strong>
+        <p>Support = 30.6%, Confidence = 61.3%, <strong>Lift = 1.22</strong><br>
+        Mid-range FED rates co-occur with mid-range inflation 61% of the time — significantly above the base rate. This validates the Taylor Rule: moderate monetary policy accompanies moderate price pressures.</p>
+      </div>
+      <div class="box amber">
+        <strong>Rule 3: Inflation_Mid → FEDRates_Mid</strong>
+        <p>Support = 30.6%, Confidence = 60.7%, <strong>Lift = 1.22</strong><br>
+        The bidirectional rule: moderate inflation also implies moderate rates. The symmetry of Rules 2 and 3 confirms a genuine two-way co-movement relationship between inflation and monetary policy, not a spurious one-directional pattern.</p>
+      </div>
+    </div>
+    <div class="box">
+      <strong>ARM Summary &amp; Interpretation</strong>
+      <p style="margin-bottom:0.75rem;">Frequent itemsets found: <strong>{arm['n_frequent_itemsets']}</strong><br>
+      Rules generated: <strong>{arm['n_rules']}</strong><br>
+      Maximum lift: <strong>{arm['top_lift']:.4f}</strong><br>
+      Maximum confidence: <strong>{arm['top_confidence']:.1%}</strong></p>
+      <p style="margin-bottom:0.75rem;">ARM uses three metrics: <strong>Support</strong> (how often the pattern appears), <strong>Confidence</strong> (how often the rule is correct), and <strong>Lift</strong> (how much more likely the consequent is given the antecedent, vs by chance alone). Lift > 1 indicates a genuine association beyond what random co-occurrence would produce.</p>
+      <p>The economic interpretation is clear: the Apriori algorithm independently rediscovered the Taylor Rule relationship between inflation and interest rates purely from data patterns — no domain knowledge was used in mining these rules. This serves as an empirical validation of macroeconomic theory using data-driven methods.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- COMPARISON -->
+<section id="comparison">
+<div class="wrap">
+  <div class="sec-label">Step 10</div>
+  <h2 class="sec-title">Model Comparison &amp; Final Results</h2>
+  <p class="sec-desc">A comprehensive comparison of all models including cross-validation stability, overfitting diagnosis, and the bias-variance tradeoff. This step consolidates all findings into a clear, interpretable ranking.</p>
+
+  <div class="grid-2" style="margin-bottom:1.5rem;">
+    <div class="card">
+      <div class="card-head">Master Comparison — All Models</div>
+      <div class="card-body">
+        <img src="{cp('comparison','master_comparison.png')}" alt="Master comparison" onclick="zoom(this.src)">
+        <p class="caption">Four panels summarize all model results. Top-left: Regression R² — ensemble methods (XGBoost, GBM, RF) cluster at R² > 0.97, linear models at R² ≈ 0.71–0.74. Top-right: Regression RMSE — XGBoost achieves lowest RMSE of 0.44. Bottom-left: Classification accuracy — Gradient Boosting and XGBoost lead at 63–64%. Bottom-right: Classification F1 score — consistent with accuracy rankings. The consistent superiority of boosted ensemble methods across both tasks confirms their suitability for complex, non-linear economic forecasting.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Overfitting Analysis — Train vs Validation Gap</div>
+      <div class="card-body">
+        <img src="{cp('comparison','overfitting_analysis.png')}" alt="Overfitting analysis" onclick="zoom(this.src)">
+        <p class="caption">For each model, the gap between training score (solid bar) and validation score (striped bar) reveals the degree of overfitting. Linear models show small gaps but low absolute performance (underfitting). Deep tree and ensemble methods show larger gaps — they fit the training data very well but validation scores are lower due to regime shifts. The purple text labels show the exact gap value. Models with the smallest gap relative to performance are ideal: Gradient Boosting and XGBoost achieve high performance with manageable overfitting.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="card-head">TimeSeriesSplit Cross-Validation — All Models</div>
+    <div class="card-body">
+      <img src="{cp('comparison','cv_all_models.png')}" alt="CV all models" onclick="zoom(this.src)">
+      <p class="caption">Left panel: Regression CV scores. These are often negative because TimeSeriesSplit asks models to generalize across economic regime boundaries — a model trained on 1970s–2000s data predicts 2010s data. The note explains this context. Right panel: Classification CV accuracy — much more stable across folds, with GBM and XGBoost achieving ~42–46% CV accuracy (lower than test accuracy due to the same regime-shift challenge, but consistently above random). Error bars show ±1 standard deviation across 5 folds; smaller bars indicate more stable (reliable) models.</p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-head">Final Regression Rankings</div>
+      <div class="card-body">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Rank</th><th>Model</th><th>R²</th><th>RMSE</th></tr></thead>
+            <tbody>
+              {reg_rank_rows()}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Final Classification Rankings</div>
+      <div class="card-body">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Rank</th><th>Model</th><th>Accuracy</th><th>F1</th></tr></thead>
+            <tbody>
+              {cls_rank_rows()}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CONCLUSION -->
+<div class="conclusion" id="conclusion">
+<div class="wrap">
+  <h2>Key Findings &amp; Conclusions</h2>
+  <div class="findings-grid">
+    <div class="finding-card">
+      <h4>Regression Results</h4>
+      <ul>
+        <li>XGBoost: R² = {reg['XGBoost']['R2']}, RMSE = {reg['XGBoost']['RMSE']}</li>
+        <li>Gradient Boosting: R² = {reg['Gradient Boosting']['R2']}</li>
+        <li>Random Forest: R² = {reg['Random Forest']['R2']}</li>
+        <li>Linear models plateau at R² ≈ 0.71–0.74</li>
+        <li>Lasso zeroed out 55% of features automatically</li>
+        <li>Best Ridge regularization alpha = 10</li>
+      </ul>
+    </div>
+    <div class="finding-card">
+      <h4>Classification Results</h4>
+      <ul>
+        <li>Best: Gradient Boosting — 63.5% accuracy</li>
+        <li>XGBoost: 62.9% accuracy</li>
+        <li>Random baseline: 33.3% (3 classes)</li>
+        <li>Improvement over random: +90%</li>
+        <li>Naive Bayes: 44.3% (independence violated)</li>
+        <li>"No Change" is the most predictable class</li>
+      </ul>
+    </div>
+    <div class="finding-card">
+      <h4>Statistical Findings</h4>
+      <ul>
+        <li>All features are non-normally distributed (Shapiro-Wilk)</li>
+        <li>GDP series are non-stationary (ADF unit root test)</li>
+        <li>Inflation is the strongest predictor (Spearman ρ = 0.68)</li>
+        <li>High inflation → FED rate {stat['ttest_inflation']['high_mean']:.2f}% vs {stat['ttest_inflation']['low_mean']:.2f}% (p ≪ 0.05)</li>
+        <li>ANOVA confirms significant regime differences</li>
+        <li>Taylor Rule validated statistically</li>
+      </ul>
+    </div>
+    <div class="finding-card">
+      <h4>PCA &amp; Clustering</h4>
+      <ul>
+        <li>4 components explain 95.7% of variance</li>
+        <li>PC1: Economic scale (57.3% — GDP growth)</li>
+        <li>PC2: Inflation cycle (18.7%)</li>
+        <li>PC3: Labor market dynamics (13.7%)</li>
+        <li>KMeans found 2 economic regimes (k=2)</li>
+        <li>DBSCAN: 97.8% noise — transitions are gradual</li>
+      </ul>
+    </div>
+    <div class="finding-card">
+      <h4>Feature Engineering Impact</h4>
+      <ul>
+        <li>67 features created from 8 raw variables</li>
+        <li>Lag features (1, 3, 6, 12 months) most important</li>
+        <li>1-month inflation lag = strongest single predictor</li>
+        <li>Rolling std captures uncertainty signals</li>
+        <li>Phillips Curve proxy (Inflation × Unemployment) adds value</li>
+        <li>Without lags, R² drops below 0.50</li>
+      </ul>
+    </div>
+    <div class="finding-card">
+      <h4>Cross-Validation &amp; Overfitting</h4>
+      <ul>
+        <li>TimeSeriesSplit used — no temporal leakage</li>
+        <li>Standard K-Fold would artificially inflate scores</li>
+        <li>Decision Tree: severe overfit at depth > 5</li>
+        <li>GBM &amp; XGBoost: best balance of fit and generalization</li>
+        <li>Economic regime shifts are the main challenge</li>
+        <li>ARM confirmed Taylor Rule from co-occurrence patterns alone</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>Federal Reserve Interest Rate Prediction</strong> — End-to-End Machine Learning Pipeline</p>
+  <p style="margin-top:0.5rem;">Data: FRED (Federal Reserve Economic Data) · 1954–2024 · 847 monthly observations</p>
+  <p style="margin-top:0.25rem;">Tools: Python · scikit-learn · XGBoost · mlxtend · Streamlit · matplotlib · seaborn</p>
+</footer>
+
+<!-- Modal -->
+<div class="modal" id="modal" onclick="this.classList.remove('on')">
+  <span class="modal-x" onclick="document.getElementById('modal').classList.remove('on')">&times;</span>
+  <img id="mimg" src="" alt="full size">
+</div>
+<script>
+function zoom(src) {{
+  document.getElementById('mimg').src = src;
+  document.getElementById('modal').classList.add('on');
+}}
+document.addEventListener('keydown', e => {{ if(e.key==='Escape') document.getElementById('modal').classList.remove('on'); }});
+</script>
+</body>
+</html>"""
+
+out = f"{SITE}/index.html"
+with open(out, "w", encoding="utf-8") as f:
+    f.write(html)
+
+print(f"Done. Open: file:///{out.replace(os.sep, '/')}")

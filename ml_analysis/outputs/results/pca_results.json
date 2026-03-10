@@ -1,0 +1,55 @@
+{
+  "explained_variance_ratio": [
+    0.5731856461749328,
+    0.18735648721239118,
+    0.13662458504059122,
+    0.05953529924243254,
+    0.04016193018526746,
+    0.002901043214358915,
+    0.00021984837984717563,
+    1.5160550178778464e-05
+  ],
+  "cumulative_variance": [
+    0.5731856461749328,
+    0.760542133387324,
+    0.8971667184279153,
+    0.9567020176703478,
+    0.9968639478556153,
+    0.9997649910699742,
+    0.9999848394498213,
+    1.0
+  ],
+  "n_components_95pct": 4,
+  "loadings": {
+    "PC1": {
+      "ConsumerPriceIndexAllItems": -0.18271441829014995,
+      "GDP": 0.44378412116173005,
+      "InflationConsumerPrice": -0.16498614557972158,
+      "MedianConsumerPriceIndex": -0.34669217788701123,
+      "RealGDP": 0.45582066935608156,
+      "RealGDPPerCapita": 0.4530170281253063,
+      "RealPotentialGDP": 0.4568110985856796,
+      "UnemployemenrRate": -0.02412282192335098
+    },
+    "PC2": {
+      "ConsumerPriceIndexAllItems": 0.6132673080988811,
+      "GDP": 0.18529595664074702,
+      "InflationConsumerPrice": 0.6375993529452748,
+      "MedianConsumerPriceIndex": 0.28808096138433964,
+      "RealGDP": 0.1707808871624456,
+      "RealGDPPerCapita": 0.1803628812801148,
+      "RealPotentialGDP": 0.15887822185974365,
+      "UnemployemenrRate": -0.11448088196905908
+    },
+    "PC3": {
+      "ConsumerPriceIndexAllItems": 0.06816626649439675,
+      "GDP": -0.07512467447224665,
+      "InflationConsumerPrice": 0.23909123026579,
+      "MedianConsumerPriceIndex": -0.2739985622825894,
+      "RealGDP": -0.010197257511098266,
+      "RealGDPPerCapita": 0.013686238519469106,
+      "RealPotentialGDP": 0.024128077868062578,
+      "UnemployemenrRate": 0.9255249070379205
+    }
+  }
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "antecedents":[
+      "GDP_Mid"
+    ],
+    "consequents":[
+      "RealGDP_Mid"
+    ],
+    "antecedent support":0.5,
+    "consequent support":0.5,
+    "support":0.4892086331,
+    "confidence":0.9784172662,
+    "lift":1.9568345324,
+    "representativity":1.0,
+    "leverage":0.2392086331,
+    "conviction":23.1666666667,
+    "zhangs_metric":0.9779411765,
+    "jaccard":0.9577464789,
+    "certainty":0.9568345324,
+    "kulczynski":0.9784172662
+  },
+  {
+    "antecedents":[
+      "RealGDP_Mid"
+    ],
+    "consequents":[
+      "GDP_Mid"
+    ],
+    "antecedent support":0.5,
+    "consequent support":0.5,
+    "support":0.4892086331,
+    "confidence":0.9784172662,
+    "lift":1.9568345324,
+    "representativity":1.0,
+    "leverage":0.2392086331,
+    "conviction":23.1666666667,
+    "zhangs_metric":0.9779411765,
+    "jaccard":0.9577464789,
+    "certainty":0.9568345324,
+    "kulczynski":0.9784172662
+  },
+  {
+    "antecedents":[
+      "FEDRates_Mid"
+    ],
+    "consequents":[
+      "Inflatio_Mid"
+    ],
+    "antecedent support":0.4988009592,
+    "consequent support":0.5035971223,
+    "support":0.3057553957,
+    "confidence":0.6129807692,
+    "lift":1.2172046703,
+    "representativity":1.0,
+    "leverage":0.054560668,
+    "conviction":1.282631038,
+    "zhangs_metric":0.3560371517,
+    "jaccard":0.4388984509,
+    "certainty":0.2203525641,
+    "kulczynski":0.6100618132
+  },
+  {
+    "antecedents":[
+      "Inflatio_Mid"
+    ],
+    "consequents":[
+      "FEDRates_Mid"
+    ],
+    "antecedent support":0.5035971223,
+    "consequent support":0.4988009592,
+    "support":0.3057553957,
+    "confidence":0.6071428571,
+    "lift":1.2172046703,
+    "representativity":1.0,
+    "leverage":0.054560668,
+    "conviction":1.2757793765,
+    "zhangs_metric":0.3594771242,
+    "jaccard":0.4388984509,
+    "certainty":0.2161654135,
+    "kulczynski":0.6100618132
+  }
+]
